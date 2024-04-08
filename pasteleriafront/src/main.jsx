@@ -1,5 +1,5 @@
 import ReactDOM from "react-dom/client";
-import Login from "./pages/Login.jsx"; // Cambia la importación a Login.jsx
+import Login from "./pages/Login.jsx"; 
 import "./styles/index.css";
 import App from "./pages/App.jsx";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";

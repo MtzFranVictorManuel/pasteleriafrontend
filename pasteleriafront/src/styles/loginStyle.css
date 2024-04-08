@@ -2,38 +2,37 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center; /* Centra verticalmente */
-    height: 50vh; /* Toma el 100% del alto de la ventana */
-    position: relative; /* Agrega posición relativa */
+    justify-content: center; 
+    height: 50vh; 
+    position: relative; 
     flex-direction: column;
   }
   
   .root .MuiTextField-root {
-    margin-bottom: 10px; /* Espacio entre elementos */
-    width: 100%; /* Ancho completo */
-    max-width: 400px; /* Ancho máximo del formulario */
+    margin-bottom: 10px; 
+    width: 100%; 
+    max-width: 400px; 
     flex-direction: column;
   }
   
   .root .MuiButton-root {
-    width: 100%; /* Ancho completo */
-    max-width: 400px; /* Ancho máximo del formulario */
+    width: 100%; 
+    max-width: 400px; 
   }
   
   @media (max-width: 600px) {
-    /* Ajustes para dispositivos con un ancho máximo de 600px */
     .root .MuiTextField-root,
     .root .MuiButton-root {
-      max-width: 300px; /* Reducir el ancho máximo para dispositivos pequeños */
+      max-width: 300px; 
     }
   }
   
   /* Centra horizontalmente */
   @media (min-width: 600px) {
     .root {
-      justify-content: center; /* Centra verticalmente */
-      left: 50%; /* Coloca el centro del formulario a la mitad del contenedor padre */
-      transform: translateX(-50%); /* Mueve el formulario hacia la izquierda en un 50% de su propio ancho */
+      justify-content: center;
+      left: 50%; 
+      transform: translateX(-50%); 
     }
   }
   

@@ -3,7 +3,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import '../styles/loginStyle.css'; 
 
-// Importa tu imagen de logo
+
 import Logo from '../imagenes/logo.png';
 
 const Login = () => {
