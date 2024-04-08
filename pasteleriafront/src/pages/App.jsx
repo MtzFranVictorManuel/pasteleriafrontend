@@ -1,35 +1,33 @@
-import { useState } from 'react'
-import reactLogo from '../assets/react.svg'
-import viteLogo from '/vite.svg'
-import '../styles/App.css'
+import { useState } from "react";
+import logo from "../imagenes/logo.jpeg";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div>
+      <nav className="flex items-center justify-between p-5 bg-pink-400">
+        <img src={logo} alt="Logo" className="w-16 h-16" />
+        <div className="text-black text-lg">Administración</div>
+        <div className="flex space-x-4">
+          <button className="bg-pink-600 text-black rounded px-2 py-1">
+            Pedidos
+          </button>
+          <button className="bg-pink-600 text-black rounded px-2 py-1">
+            Productos
+          </button>
+          <button className="bg-pink-600 text-black rounded px-2 py-1">
+            Cerrar Sesión
+          </button>
+        </div>
+      </nav>
+      <div className="text-center text-3xl font-bold mt-5">Productos</div>
+      <a
+        href="/agregarProducto"
+        className="inline-block bg-pink-200 text-black text-lg px-4 py-2 rounded hover:bg-blue-700 transition-colors duration-200"
+      >
+        Agregar Producto
+      </a>
+    </div>
+  );
 }
 
-export default App
+export default App;
