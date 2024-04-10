@@ -4,15 +4,16 @@ export const RegistroContext = React.createContext();
 
 function Contexto() {
     const [pasoActual, setPasoActual] = useState(0);
-    const [productoDatos, setProductoDatos] = useState([]);
-    const [datosFinales, setDatosFinales] = useState([]);
+    const [productoDatosIniciales, setProductoDatosIniciales] = useState([]);
+    const [productoDatosExtras, setProductoDatosExtras] = useState([]);
+    const [productoDatosFinales, setProductoDatosFinales] = useState([]);
 
     function enviarDatos(datos) {
         console.log(productoDatos);
     }
     return (
         <>
-            <RegistroContext.Provider value={{ pasoActual, setPasoActual, productoDatos, setProductoDatos, datosFinales, setDatosFinales, enviarDatos }}>
+            <RegistroContext.Provider value={{pasoActual,setPasoActual,productoDatosIniciales,setProductoDatosIniciales,productoDatosExtras,setProductoDatosExtras,productoDatosFinales,setProductoDatosFinales }}>
                 <AgregarProducto />
             </RegistroContext.Provider>
         </>

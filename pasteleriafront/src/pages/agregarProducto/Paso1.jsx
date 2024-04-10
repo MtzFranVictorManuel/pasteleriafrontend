@@ -1,8 +1,9 @@
 import { useContext, useState, useCallback } from "react";
 import { RegistroContext } from "./Contexto";
 import { useDropzone } from "react-dropzone";
+import { TextField } from "@mui/material";
 
-function Paso1() {
+function Paso1(setDatosBasicos) {
   const { setPasoActual } = useContext(RegistroContext);
 
   const [nombre, setNombre] = useState("");
@@ -34,40 +35,59 @@ function Paso1() {
     accept: "image/*",
   });
 
+  const guardarDatosBasicos = () => {
+    setDatosBasicos({
+      nombre,
+      descripcion,
+      costo,
+      imagen,
+    });
+    setPasoActual((prevPaso) => prevPaso + 1);
+  };
+
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-pink-100">
+    <div className="flex flex-col items-center justify-center min-h-screen">
       <h1 className="mb-4 text-2xl font-bold text-gray-700">Paso 1</h1>
       <p className="mb-8 text-gray-600">Ingrese los datos del producto</p>
       <form className="w-full max-w-md mx-auto">
-        <label className="block mb-4">
-          <span className="text-gray-700">Nombre del producto:</span>
-          <input
-            type="text"
+        <label className="block mb-4 p-4">
+          <TextField
+            label="Nombre del producto"
             value={nombre}
             onChange={(e) => setNombre(e.target.value)}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            variant="outlined"
+            fullWidth
+            className="mb-4"
+            margin="normal"
           />
-        </label>
-        <label className="block mb-4">
-          <span className="text-gray-700">Descripción del producto:</span>
-          <textarea
+          <TextField
+            label="Descripción del producto"
             value={descripcion}
             onChange={(e) => setDescripcion(e.target.value)}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            variant="outlined"
+            multiline
+            rows={4}
+            fullWidth
+            className="mb-4"
+            margin="normal"
           />
-        </label>
-        <label className="block mb-4">
-          <span className="text-gray-700">Costo del producto:</span>
-          <input
-            type="number"
+          <TextField
+            label="Costo del producto"
             value={costo}
             onChange={(e) => setCosto(e.target.value)}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            variant="outlined"
+            type="number"
+            fullWidth
+            className="mb-4"
+            margin="normal"
           />
         </label>
         <label className="block mb-4">
           <span className="text-gray-700">Imagen principal del producto:</span>
-          <div className="w-60 h-60" {...getRootProps({ className: "dropzone" }) }>
+          <div
+            className="w-60 h-60"
+            {...getRootProps({ className: "dropzone" })}
+          >
             <input {...getInputProps()} />
             {imagen ? (
               <img src={imagen} alt="Preview" />
@@ -78,8 +98,8 @@ function Paso1() {
         </label>
       </form>
       <button
-        onClick={() => setPasoActual(1)}
-        className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 transition-colors duration-200"
+        onClick={guardarDatosBasicos}
+        className="mt-4 px-4 py-2 bg-pink-400 text-white rounded hover:bg-pink-600 transition-colors duration-200"
       >
         Siguiente
       </button>
