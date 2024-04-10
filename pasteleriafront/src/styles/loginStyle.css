@@ -31,7 +31,7 @@
   @media (min-width: 600px) {
     .root {
       justify-content: center;
-      left: 50%; 
+      left: 55%; 
       transform: translateX(-50%); 
     }
   }
