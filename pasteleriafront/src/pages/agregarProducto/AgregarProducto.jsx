@@ -2,47 +2,34 @@ import { useContext } from "react";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
-import logo from "../../imagenes/logo.jpeg";
+
 import { RegistroContext } from "./Contexto";
 import Paso2 from "./Paso2";
 import Paso1 from "./Paso1";
 import Paso3 from "./Paso3";
+import NavBarAdmin from "../NavAdmin";
+
 
 function AgregarProducto() {
   const { pasoActual, datosFinales } = useContext(RegistroContext);
+  const { setDatosBasicos, setDatosExtras, setDatosFinales } = useContext(RegistroContext);
+
 
   function mostrarPasos(paso) {
     console.log(paso);
     switch (paso) {
       case 0:
-        return <Paso1 />;
+        return <Paso1 setDatosBasicos={setDatosBasicos} />;
       case 1:
-        return <Paso2 />;
+        return <Paso2 setDatosExtras={setDatosExtras}/>;
       case 2:
-        return <Paso3 />;
+        return <Paso3 setDatosFinales={setDatosFinales}/>;
     }
   }
   return (
     <>
-      <nav className="flex items-center justify-between p-5 bg-pink-400">
-        <a href="/productos">
-          {" "}
-          <img src={logo} alt="Logo" className="w-16 h-16" />
-        </a>
-        <div className="text-black text-lg">Administración</div>
-        <div className="flex space-x-4">
-          <button className="bg-pink-600 text-black rounded px-2 py-1">
-            Pedidos
-          </button>
-          <button className="bg-pink-600 text-black rounded px-2 py-1">
-            Productos
-          </button>
-          <button className="bg-pink-600 text-black rounded px-2 py-1">
-            Cerrar Sesión
-          </button>
-        </div>
-      </nav>
-      <div className="flex justify-center items-center text-3xl font-bold mt-5">
+    <NavBarAdmin/>
+      <div className="flex justify-center items-center text-3xl font-bold py-5 bg-pink-100">
       <Stepper activeStep={pasoActual} className="w-2/3">
         <Step>
           <StepLabel>Datos basicos</StepLabel>
@@ -55,7 +42,7 @@ function AgregarProducto() {
         </Step>
       </Stepper>
       </div>
-      <div className="mt-5">
+      <div className="py-5">
       {mostrarPasos(pasoActual)}
       </div>
     </>
