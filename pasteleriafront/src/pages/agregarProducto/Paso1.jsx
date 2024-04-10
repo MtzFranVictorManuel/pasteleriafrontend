@@ -3,8 +3,8 @@ import { RegistroContext } from "./Contexto";
 import { useDropzone } from "react-dropzone";
 import { TextField } from "@mui/material";
 
-function Paso1(setDatosBasicos) {
-  const { setPasoActual } = useContext(RegistroContext);
+function Paso1(datosBasicos) {
+  const { setPasoActual,setDatosBasicos } = useContext(RegistroContext);
 
   const [nombre, setNombre] = useState("");
   const [descripcion, setDescripcion] = useState("");
@@ -42,7 +42,7 @@ function Paso1(setDatosBasicos) {
       costo,
       imagen,
     });
-    setPasoActual((prevPaso) => prevPaso + 1);
+    setPasoActual(2);
   };
 
   return (

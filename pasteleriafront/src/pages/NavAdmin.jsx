@@ -9,13 +9,13 @@ function NavAdmin(){
         </a>
         <div className="text-black text-lg">Administración</div>
         <div className="flex space-x-4">
-          <button className="bg-pink-400 text-black px-2 py-1 rounded-lg">
+          <button className="bg-pink-200 text-black px-2 py-1 rounded-lg hover:bg-pink-400">
             Pedidos
           </button>
-          <button className="bg-pink-400 text-black rounded-lg px-2 py-1">
+          <button className="bg-pink-200 text-black rounded-lg px-2 py-1 hover:bg-pink-400">
             Productos
           </button>
-          <button className="bg-pink-400 text-black rounded-lg px-2 py-1">
+          <button className="bg-pink-200 text-black rounded-lg px-2 py-1 hover:bg-pink-400">
             Cerrar Sesión
           </button>
         </div>
