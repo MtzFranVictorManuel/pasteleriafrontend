@@ -1,89 +1,81 @@
 .root {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center; 
-    height: 50vh; 
-    position: relative; 
-    flex-direction: column;
-  }
-  
-  .root .MuiTextField-root {
-    margin-bottom: 10px; 
-    width: 100%; 
-    max-width: 400px; 
-    flex-direction: column;
-  }
-  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50vh;
+  position: relative;
+  flex-direction: column;
+}
+
+.root .MuiTextField-root {
+  margin-bottom: 10px;
+  width: 100%;
+  max-width: 400px;
+  flex-direction: column;
+}
+
+.root .MuiButton-root {
+  width: 100%;
+  max-width: 400px;
+}
+
+@media (max-width: 600px) {
+
+  .root .MuiTextField-root,
   .root .MuiButton-root {
-    width: 100%; 
-    max-width: 400px; 
+    max-width: 300px;
   }
-  
-  @media (max-width: 600px) {
-    .root .MuiTextField-root,
-    .root .MuiButton-root {
-      max-width: 300px; 
-    }
-  }
-  
-  /* Centra horizontalmente */
-  @media (min-width: 600px) {
-    .root {
-      justify-content: center;
-      left: 55%; 
-      transform: translateX(-50%); 
-    }
-  }
-  
+}
 
-  .linkContainer {
-    margin-top: 1rem;
-    text-align: center;
+/* Centra horizontalmente */
+@media (min-width: 600px) {
+  .root {
+    justify-content: center;
+    left: 55%;
+    transform: translateX(-50%);
   }
-  
-  .linkContainer a {
-    text-decoration: none;
-    color: #3f51b5;
-    transition: color 0.3s ease;
-  }
-  
-  .linkContainer a:hover {
-    color: #1976d2;
-  }
+}
 
 
-  
-  .logoContainer {
+.linkContainer {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.linkContainer a {
+  text-decoration: none;
+  color: #3f51b5;
+  transition: color 0.3s ease;
+}
+
+.linkContainer a:hover {
+  color: #1976d2;
+}
+
+
+
+.logo {
+  max-width: 100%;
+  height: 150px;
+}
+
+@media (min-width: 600px) {
+  .container {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+
+  .root {
+    max-width: 400px;
     margin-top: 30px;
   }
-  
-  .logo {
-    max-width: 100%;
-    height: 150px;
-  }
-  
-  @media (min-width: 600px) {
-    .container {
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: flex-start;
-    }
+}
 
-    .logoContainer {
-      order: 1;
-      margin-left: 30px;
-    }
-  
-    .root {
-      max-width: 400px;
-      margin-top: 30px;
-    }
-  }
-
-  h1 {
-    font-size: 24px;
-    font-weight: 500;
-    color: #333;
-    margin-bottom: 20px;
-  }
+h1 {
+  font-size: 24px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 20px;
+}
