@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import '../styles/loginStyle.css'; 
+import '../styles/loginStyle.css';
 import './Registrar.jsx'
 
 
@@ -25,37 +25,34 @@ const Login = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if((email == null || email =='') && (password == null || password =='')){
+    if ((email == null || email == '') && (password == null || password == '')) {
       alert('Correo Electrónico y Contraseña no pueden estar vacíos');
       setEmailError(true);
       setPasswordError(true);
       return;
     }
-    if(email == null || email ==''){
+    if (email == null || email == '') {
       alert('Correo Electrónico no puede estar vacío');
       setEmailError(true);
       setPasswordError(false);
       return;
     }
-    if(password == null || password ==''){
+    if (password == null || password == '') {
       alert('Contraseña no puede estar vacía');
       setEmailError(false);
       setPasswordError(true);
       return;
     }
-    
+
     console.log('Email:', email);
     console.log('Password:', password);
   };
 
   return (
     <div className="container">
-      <div className="logoContainer">
-        <img src={Logo} alt="Logo" className="logo" />
-      </div>
-      
       <form className="root" onSubmit={handleSubmit}>
-      <h1>Login</h1>
+        <img src={Logo} alt="Logo" className="logo" />
+        <h1>Login</h1>
         <TextField
           id={emailError ? "outlined-error" : "outlined-email"}
           label="Correo Electrónico"
