@@ -3,13 +3,13 @@ import { RegistroContext } from "./Contexto";
 import { useDropzone } from "react-dropzone";
 import { TextField } from "@mui/material";
 
-function Paso1(datosBasicos) {
-  const { setPasoActual,setDatosBasicos } = useContext(RegistroContext);
+function Paso1() {
+  const { setPasoActual,setProductoDatosBasicos,productoDatosBasicos} = useContext(RegistroContext);
 
-  const [nombre, setNombre] = useState("");
-  const [descripcion, setDescripcion] = useState("");
-  const [costo, setCosto] = useState("");
-  const [imagen, setImagen] = useState(null);
+  const [nombre, setNombre] = useState(productoDatosBasicos.nombre || "");
+  const [descripcion, setDescripcion] = useState(productoDatosBasicos.descripcion || "");
+  const [costo, setCosto] = useState(productoDatosBasicos.costo || "");
+  const [imagen, setImagen] = useState(productoDatosBasicos.imagen || null);
   const [files, setFiles] = useState([]);
   const [placeholder, setPlaceholder] = useState(
     "https://via.placeholder.com/150"
@@ -36,13 +36,18 @@ function Paso1(datosBasicos) {
   });
 
   const guardarDatosBasicos = () => {
-    setDatosBasicos({
+    console.log("Guardando datos basicos");
+    console.log("nombre", nombre);
+    console.log("descripcion", descripcion);
+    console.log("costo", costo);
+    console.log("imagen", imagen);
+    setProductoDatosBasicos({
       nombre,
       descripcion,
       costo,
       imagen,
     });
-    setPasoActual(2);
+    setPasoActual(1);
   };
 
   return (
@@ -80,6 +85,7 @@ function Paso1(datosBasicos) {
             fullWidth
             className="mb-4"
             margin="normal"
+            placeholder="$"
           />
         </label>
         <label className="block mb-4">
@@ -99,7 +105,7 @@ function Paso1(datosBasicos) {
       </form>
       <button
         onClick={guardarDatosBasicos}
-        className="mt-4 px-4 py-2 bg-pink-400 text-white rounded hover:bg-pink-600 transition-colors duration-200"
+        className="mt-4 px-4 py-2 bg-pink-200 text-black rounded hover:bg-pink-400 transition-colors duration-200"
       >
         Siguiente
       </button>
