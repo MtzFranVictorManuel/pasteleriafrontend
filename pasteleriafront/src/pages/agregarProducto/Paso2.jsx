@@ -1,28 +1,106 @@
-import { useContext } from "react";
 import { useContext, useState,useEffect } from "react";
 import { RegistroContext } from "./Contexto";
-import {
-  TextField,
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel,
-  Checkbox,
-  FormControlLabel,
-  Autocomplete,
-  Chip,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  Button,
-} from "@mui/material";
 
 import axios from 'axios';
 
 
 function Paso2() {
-    const { pasoActual, setPasoActual } = useContext(RegistroContext);
+  const { pasoActual, setPasoActual } = useContext(RegistroContext);
+
+  const [categoria, setCategoria] = useState("");
+
+  const [formularioVisible, setFormularioVisible] = useState(false);
+  const [nuevoIngrediente, setNuevoIngrediente] = useState({
+    nombre: "",
+    cantidad: "",
+    idMedida: "",
+  });
+  const [ingredientes, setIngredientes] = useState([]);
+
+  const [categorias, setCategorias] = useState([]);
+
+  const [categoriasSeleccionadas, setCategoriasSeleccionadas] = useState([]);
+
+  const [ingredienteSeleccionado, setIngredienteSeleccionado] = useState(null);
+  const [ingredientesSeleccionados, setIngredientesSeleccionados] = useState(
+    []
+  );
+
+  const manejarCambioCategoria = (event, newValue) => {
+    if (newValue) {
+      setCategoriasSeleccionadas([...categoriasSeleccionadas, newValue]);
+      setCategoria("");
+    }
+  };
+
+  const eliminarCategoria = (categoria) => {
+    setCategoriasSeleccionadas(
+      categoriasSeleccionadas.filter((cat) => cat !== categoria)
+    );
+  };
+
+  const manejarCambioNuevoIngrediente = (event) => {
+    setNuevoIngrediente({
+      ...nuevoIngrediente,
+      [event.target.name]: event.target.value,
+    });
+  };
+
+  const agregarIngrediente = () => {
+    guardarIngrediente();
+    setNuevoIngrediente({ nombre: "", cantidad: "", idMedida: "" });
+    setFormularioVisible(false);
+  };
+
+  const manejarCambioIngrediente = (event, newValue) => {
+    if (newValue) {
+      setIngredientesSeleccionados([...ingredientesSeleccionados, newValue]);
+      setIngredienteSeleccionado(null);
+    }
+  };
+
+  const eliminarIngrediente = (ingrediente) => {
+    setIngredientesSeleccionados(
+      ingredientesSeleccionados.filter((ing) => ing !== ingrediente)
+    );
+  };
+
+
+  useEffect(() => {
+    axios.get('http://127.0.0.1:8000/categorias')
+      .then(response => {
+        const nombres = response.data.map(categoria => categoria.nombre);
+        console.log(nombres);
+        setCategorias(nombres);
+      });
+  }, []);
+
+  useEffect(() => {
+    recuperarIngredientesApi();
+  }, []);
+
+  function recuperarIngredientesApi() {
+    axios.get('http://127.0.0.1:8000/ingredientes')
+      .then(response => {
+        console.log(response.data);
+        setIngredientes(response.data);
+      });
+  }
+
+  function guardarIngrediente() {
+    axios.post('http://127.0.0.1:8000/ingrediente',
+      {
+        nombre: nuevoIngrediente.nombre,
+        cantidad: nuevoIngrediente.cantidad,
+        idMedida: nuevoIngrediente.idMedida
+      })
+      .then(response => {
+        console.log(response.data);
+        recuperarIngredientesApi();
+      });
+    }
+
+
   return (
     <div className="flex">
       <div className="w-1/2 p-4">
