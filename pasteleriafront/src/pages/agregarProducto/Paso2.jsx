@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState,useEffect } from "react";
 import { RegistroContext } from "./Contexto";
 import {
   TextField,
@@ -17,6 +17,9 @@ import {
   Button,
 } from "@mui/material";
 
+import axios from 'axios';
+
+
 function Paso2() {
   const { pasoActual, setPasoActual } = useContext(RegistroContext);
 
@@ -26,11 +29,11 @@ function Paso2() {
   const [nuevoIngrediente, setNuevoIngrediente] = useState({
     nombre: "",
     cantidad: "",
-    tipo: "",
+    idMedida: "",
   });
   const [ingredientes, setIngredientes] = useState([]);
 
-  const categorias = ["Categoría 1", "Categoría 2", "Categoría 3"]; // Tus categorías
+  const [categorias, setCategorias] = useState([]);
 
   const [categoriasSeleccionadas, setCategoriasSeleccionadas] = useState([]);
 
@@ -60,8 +63,8 @@ function Paso2() {
   };
 
   const agregarIngrediente = () => {
-    setIngredientes([...ingredientes, nuevoIngrediente]);
-    setNuevoIngrediente({ nombre: "", cantidad: "", tipo: "" });
+    guardarIngrediente();
+    setNuevoIngrediente({ nombre: "", cantidad: "", idMedida: "" });
     setFormularioVisible(false);
   };
 
@@ -77,6 +80,42 @@ function Paso2() {
       ingredientesSeleccionados.filter((ing) => ing !== ingrediente)
     );
   };
+
+
+  useEffect(() => {
+    axios.get('http://127.0.0.1:8000/categorias')
+      .then(response => {
+        const nombres = response.data.map(categoria => categoria.nombre);
+        console.log(nombres);
+        setCategorias(nombres);
+      });
+  }, []);
+
+  useEffect(() => {
+    recuperarIngredientesApi();
+  }, []);
+
+  function recuperarIngredientesApi() {
+    axios.get('http://127.0.0.1:8000/ingredientes')
+      .then(response => {
+        console.log(response.data);
+        setIngredientes(response.data);
+      });
+  }
+
+  function guardarIngrediente() {
+    axios.post('http://127.0.0.1:8000/ingrediente',
+      {
+        nombre: nuevoIngrediente.nombre,
+        cantidad: nuevoIngrediente.cantidad,
+        idMedida: nuevoIngrediente.idMedida
+      })
+      .then(response => {
+        console.log(response.data);
+        recuperarIngredientesApi();
+      });
+    }
+
 
   return (
     <div className="flex">
@@ -120,7 +159,7 @@ function Paso2() {
             (ing) => !ingredientesSeleccionados.includes(ing)
           )}
           getOptionLabel={(option) =>
-            `${option.nombre} - ${option.cantidad} ${option.tipo}`
+            `${option.nombre} - ${option.cantidad} ${option.nombreMedida}`
           }
           renderInput={(params) => (
             <TextField {...params} label="Buscar ingrediente" />
@@ -130,7 +169,7 @@ function Paso2() {
         {ingredientesSeleccionados.map((ingrediente) => (
           <Chip
             key={ingrediente.nombre}
-            label={`${ingrediente.nombre} - ${ingrediente.cantidad} ${ingrediente.tipo}`}
+            label={`${ingrediente.nombre} - ${ingrediente.cantidad} ${ingrediente.nombreMedida}`}
             onDelete={() => eliminarIngrediente(ingrediente)}
             className="m-1"
           />
@@ -157,14 +196,16 @@ function Paso2() {
               onChange={manejarCambioNuevoIngrediente}
             />
             <Select
-              value={nuevoIngrediente.tipo}
+              value={nuevoIngrediente.idMedida}
               onChange={manejarCambioNuevoIngrediente}
               name="tipo"
               fullWidth
             >
-              <MenuItem value={"Gramos"}>Gramos</MenuItem>
-              <MenuItem value={"Unidades"}>Unidades</MenuItem>
-              <MenuItem value={"Mililitros"}>Mililitros</MenuItem>
+              <MenuItem value={1}>Kilogramos</MenuItem>
+              <MenuItem value={2}>Gramos</MenuItem>
+              <MenuItem value={3}>Litro</MenuItem>
+              <MenuItem value={4}>Mililitros</MenuItem>
+              <MenuItem value={5}>Unidades</MenuItem>
             </Select>
             <TextField
               margin="dense"
