@@ -16,6 +16,7 @@ function Main() {
         <Route path="/productos" element={<Productos />} />
         <Route path="/agregarProducto" element={<Contexto><AgregarProducto /></Contexto>} />
         <Route path="/registrar" element={<Registrar />} />
+
       </Routes>
     </Router>
   );

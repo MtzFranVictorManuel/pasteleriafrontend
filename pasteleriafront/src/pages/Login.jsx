@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import '../styles/loginStyle.css';
 import './Registrar.jsx'
 
 
-import Logo from '../imagenes/logo.png';
+import Logo from '../imagenes/logo.jpeg';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -49,7 +48,7 @@ const Login = () => {
   };
 
   return (
-    <div className="container">
+    <div className="flex flex-col items-center justify-center h-screen space-y-4">
       <form className="root" onSubmit={handleSubmit}>
         <img src={Logo} alt="Logo" className="logo" />
         <h1>Login</h1>
