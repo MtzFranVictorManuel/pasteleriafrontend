@@ -1,14 +1,15 @@
 import { useContext, useState, useCallback } from "react";
 import { RegistroContext } from "./Contexto";
 import { useDropzone } from "react-dropzone";
+import { TextField } from "@mui/material";
 
 function Paso1() {
-  const { setPasoActual } = useContext(RegistroContext);
+  const { setPasoActual,setProductoDatosBasicos,productoDatosBasicos} = useContext(RegistroContext);
 
-  const [nombre, setNombre] = useState("");
-  const [descripcion, setDescripcion] = useState("");
-  const [costo, setCosto] = useState("");
-  const [imagen, setImagen] = useState(null);
+  const [nombre, setNombre] = useState(productoDatosBasicos.nombre || "");
+  const [descripcion, setDescripcion] = useState(productoDatosBasicos.descripcion || "");
+  const [costo, setCosto] = useState(productoDatosBasicos.costo || "");
+  const [imagen, setImagen] = useState(productoDatosBasicos.imagen || null);
   const [files, setFiles] = useState([]);
   const [placeholder, setPlaceholder] = useState(
     "https://via.placeholder.com/150"
@@ -34,40 +35,65 @@ function Paso1() {
     accept: "image/*",
   });
 
+  const guardarDatosBasicos = () => {
+    console.log("Guardando datos basicos");
+    console.log("nombre", nombre);
+    console.log("descripcion", descripcion);
+    console.log("costo", costo);
+    console.log("imagen", imagen);
+    setProductoDatosBasicos({
+      nombre,
+      descripcion,
+      costo,
+      imagen,
+    });
+    setPasoActual(1);
+  };
+
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-pink-100">
+    <div className="flex flex-col items-center justify-center min-h-screen">
       <h1 className="mb-4 text-2xl font-bold text-gray-700">Paso 1</h1>
       <p className="mb-8 text-gray-600">Ingrese los datos del producto</p>
       <form className="w-full max-w-md mx-auto">
-        <label className="block mb-4">
-          <span className="text-gray-700">Nombre del producto:</span>
-          <input
-            type="text"
+        <label className="block mb-4 p-4">
+          <TextField
+            label="Nombre del producto"
             value={nombre}
             onChange={(e) => setNombre(e.target.value)}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            variant="outlined"
+            fullWidth
+            className="mb-4"
+            margin="normal"
           />
-        </label>
-        <label className="block mb-4">
-          <span className="text-gray-700">Descripción del producto:</span>
-          <textarea
+          <TextField
+            label="Descripción del producto"
             value={descripcion}
             onChange={(e) => setDescripcion(e.target.value)}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            variant="outlined"
+            multiline
+            rows={4}
+            fullWidth
+            className="mb-4"
+            margin="normal"
           />
-        </label>
-        <label className="block mb-4">
-          <span className="text-gray-700">Costo del producto:</span>
-          <input
-            type="number"
+          <TextField
+            label="Costo del producto"
             value={costo}
             onChange={(e) => setCosto(e.target.value)}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            variant="outlined"
+            type="number"
+            fullWidth
+            className="mb-4"
+            margin="normal"
+            placeholder="$"
           />
         </label>
         <label className="block mb-4">
           <span className="text-gray-700">Imagen principal del producto:</span>
-          <div className="w-60 h-60" {...getRootProps({ className: "dropzone" }) }>
+          <div
+            className="w-60 h-60"
+            {...getRootProps({ className: "dropzone" })}
+          >
             <input {...getInputProps()} />
             {imagen ? (
               <img src={imagen} alt="Preview" />
@@ -78,8 +104,8 @@ function Paso1() {
         </label>
       </form>
       <button
-        onClick={() => setPasoActual(1)}
-        className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 transition-colors duration-200"
+        onClick={guardarDatosBasicos}
+        className="mt-4 px-4 py-2 bg-pink-200 text-black rounded hover:bg-pink-400 transition-colors duration-200"
       >
         Siguiente
       </button>
