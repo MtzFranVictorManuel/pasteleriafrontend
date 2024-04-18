@@ -2,6 +2,7 @@ import { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import './Registrar.jsx'
+import axios from 'axios';
 
 
 import Logo from '../imagenes/logo.jpeg';
@@ -22,7 +23,7 @@ const Login = () => {
     setPasswordError(false);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     if ((email == null || email == '') && (password == null || password == '')) {
       alert('Correo Electrónico y Contraseña no pueden estar vacíos');
@@ -43,15 +44,35 @@ const Login = () => {
       return;
     }
 
-    console.log('Email:', email);
-    console.log('Password:', password);
+    try {
+      const response = await axios.post('http://127.0.0.1:8000/login', {
+        email: email,
+        password: password
+      });
+  
+      console.log(response.data.message);
+    } catch (error) {
+      if (error.response) {
+        // La petición fue hecha y el servidor respondió con un código de estado
+        // que cae fuera del rango de 2xx
+        console.log(error.response.data.detail);
+      } else if (error.request) {
+        // La petición fue hecha pero no se recibió ninguna respuesta
+        console.log(error.request);
+      } else {
+        // Algo sucedió en la configuración de la petición que provocó un error
+        console.log('Error', error.message);
+      }
+    }
   };
 
+
+
   return (
-    <div className="flex flex-col items-center justify-center h-screen space-y-4">
-      <form className="root" onSubmit={handleSubmit}>
+    <div>
+      <form className="flex flex-col items-center justify-center h-screen space-y-4" onSubmit={handleSubmit}>
         <img src={Logo} alt="Logo" className="logo" />
-        <h1>Login</h1>
+        <h1 className="text-3xl font-bold">Login</h1>
         <TextField
           id={emailError ? "outlined-error" : "outlined-email"}
           label="Correo Electrónico"
@@ -59,6 +80,7 @@ const Login = () => {
           value={email}
           onChange={handleEmailChange}
           error={emailError}
+          className="mb-4 w-80"
         />
         <TextField
           id={passwordError ? "outlined-error" : "outlined-password"}
@@ -68,14 +90,15 @@ const Login = () => {
           value={password}
           onChange={handlePasswordChange}
           error={passwordError}
+          className="mb-4 w-80"
         />
         <Button variant="contained" type="submit">
           Iniciar sesión
         </Button>
         <div className="linkContainer">
-          <a href="/forgot-password">¿Olvidaste tu contraseña?</a>
+          <a href="/forgot-password" style={{color:"blue"}}>¿Olvidaste tu contraseña?</a>
           <span style={{ margin: '0 10px' }}>|</span>
-          <a href="/Registrar">Registrarse</a>
+          <a href="/Registrar" style={{color:"blue"}}>Registrarse</a>
         </div>
       </form>
     </div>
