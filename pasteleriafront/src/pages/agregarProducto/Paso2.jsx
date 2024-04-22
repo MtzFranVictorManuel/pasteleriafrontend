@@ -1,5 +1,6 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { RegistroContext } from "./Contexto";
+import { API_URL } from "../../services/Constantes";
 import {
   TextField,
   Select,
@@ -17,8 +18,15 @@ import {
   Button,
 } from "@mui/material";
 
+import axios from "axios";
+
 function Paso2() {
-  const { pasoActual, setPasoActual } = useContext(RegistroContext);
+  const {
+    pasoActual,
+    setPasoActual,
+    productoDatosExtras,
+    setProductoDatosExtras,
+  } = useContext(RegistroContext);
 
   const [categoria, setCategoria] = useState("");
 
@@ -26,11 +34,11 @@ function Paso2() {
   const [nuevoIngrediente, setNuevoIngrediente] = useState({
     nombre: "",
     cantidad: "",
-    tipo: "",
+    idMedida: "",
   });
   const [ingredientes, setIngredientes] = useState([]);
 
-  const categorias = ["Categoría 1", "Categoría 2", "Categoría 3"]; // Tus categorías
+  const [categorias, setCategorias] = useState([]);
 
   const [categoriasSeleccionadas, setCategoriasSeleccionadas] = useState([]);
 
@@ -43,6 +51,7 @@ function Paso2() {
     if (newValue) {
       setCategoriasSeleccionadas([...categoriasSeleccionadas, newValue]);
       setCategoria("");
+      setCategoria(null);
     }
   };
 
@@ -60,8 +69,8 @@ function Paso2() {
   };
 
   const agregarIngrediente = () => {
-    setIngredientes([...ingredientes, nuevoIngrediente]);
-    setNuevoIngrediente({ nombre: "", cantidad: "", tipo: "" });
+    guardarIngrediente();
+    setNuevoIngrediente({ nombre: "", cantidad: "", idMedida: "" });
     setFormularioVisible(false);
   };
 
@@ -78,6 +87,66 @@ function Paso2() {
     );
   };
 
+  useEffect(() => {
+    if (pasoActual === 1) {
+      console.log("Paso 2");
+      console.log(productoDatosExtras);
+      if (productoDatosExtras.categorias) {
+        setCategoriasSeleccionadas(productoDatosExtras.categorias);
+      }
+      if (productoDatosExtras.ingredientes) {
+        setIngredientesSeleccionados(productoDatosExtras.ingredientes);
+      }
+    }
+  }, [pasoActual, productoDatosExtras]);
+
+  function recuperarIngredientesApi() {
+    axios.get(API_URL+"ingredientes").then((response) => {
+      console.log(response.data);
+      setIngredientes(response.data);
+    });
+  }
+
+  useEffect(() => {
+    axios.get(API_URL+"categorias").then((response) => {
+      const categorias = response.data.map((categoria) => ({
+        nombre: categoria.nombre,
+        idCategoria: categoria.idCategoria,
+      }));
+      console.log(categorias);
+      setCategorias(categorias);
+    });
+  }, []);
+
+  useEffect(() => {
+    recuperarIngredientesApi();
+  }, []);
+
+  function guardarIngrediente() {
+    console.log(nuevoIngrediente);
+    axios
+      .post("http://127.0.0.1:8000/ingrediente", {
+        nombre: nuevoIngrediente.nombre,
+        cantidad: nuevoIngrediente.cantidad,
+        idMedida: nuevoIngrediente.idMedida,
+      })
+      .then((response) => {
+        console.log(response.data);
+        recuperarIngredientesApi();
+      });
+  }
+
+  const guardarDatosExtras = () => {
+    console.log("Guardando datos extras");
+    console.log("Categorias seleccionadas", categoriasSeleccionadas);
+    console.log("Ingredientes seleccionados", ingredientesSeleccionados);
+    setProductoDatosExtras({
+      categorias: categoriasSeleccionadas,
+      ingredientes: ingredientesSeleccionados,
+    });
+    setPasoActual(pasoActual + 1);
+  };
+
   return (
     <div className="flex">
       <div className="w-1/2 p-4">
@@ -86,9 +155,13 @@ function Paso2() {
           <Autocomplete
             value={categoria}
             onChange={manejarCambioCategoria}
-            options={categorias.filter(
-              (cat) => !categoriasSeleccionadas.includes(cat)
-            )}
+            options={categorias ? categorias.filter(
+              (cat) =>
+                !categoriasSeleccionadas.some(
+                  (cs) => cs.idCategoria === cat.idCategoria
+                )
+            ) : []} // Asegúrate de que categorias está definido antes de usarlo
+            getOptionLabel={(option) => option ? option.nombre : ''}
             renderInput={(params) => (
               <TextField {...params} label="Categoría" />
             )}
@@ -96,8 +169,8 @@ function Paso2() {
 
           {categoriasSeleccionadas.map((categoria) => (
             <Chip
-              key={categoria}
-              label={categoria}
+              key={categoria.idCategoria}
+              label={categoria.nombre}
               onDelete={() => eliminarCategoria(categoria)}
               className="m-1"
             />
@@ -117,10 +190,13 @@ function Paso2() {
           value={ingredienteSeleccionado}
           onChange={manejarCambioIngrediente}
           options={ingredientes.filter(
-            (ing) => !ingredientesSeleccionados.includes(ing)
+            (ing) =>
+              !ingredientesSeleccionados.some(
+                (is) => is.idIngrediente === ing.idIngrediente
+              )
           )}
           getOptionLabel={(option) =>
-            `${option.nombre} - ${option.cantidad} ${option.tipo}`
+            `${option.nombre} - ${option.cantidad} ${option.nombreMedida}`
           }
           renderInput={(params) => (
             <TextField {...params} label="Buscar ingrediente" />
@@ -130,7 +206,7 @@ function Paso2() {
         {ingredientesSeleccionados.map((ingrediente) => (
           <Chip
             key={ingrediente.nombre}
-            label={`${ingrediente.nombre} - ${ingrediente.cantidad} ${ingrediente.tipo}`}
+            label={`${ingrediente.nombre} - ${ingrediente.cantidad} ${ingrediente.nombreMedida}`}
             onDelete={() => eliminarIngrediente(ingrediente)}
             className="m-1"
           />
@@ -157,14 +233,16 @@ function Paso2() {
               onChange={manejarCambioNuevoIngrediente}
             />
             <Select
-              value={nuevoIngrediente.tipo}
+              value={nuevoIngrediente.idMedida}
               onChange={manejarCambioNuevoIngrediente}
-              name="tipo"
+              name="idMedida"
               fullWidth
             >
-              <MenuItem value={"Gramos"}>Gramos</MenuItem>
-              <MenuItem value={"Unidades"}>Unidades</MenuItem>
-              <MenuItem value={"Mililitros"}>Mililitros</MenuItem>
+              <MenuItem value={1}>Kilogramos</MenuItem>
+              <MenuItem value={2}>Gramos</MenuItem>
+              <MenuItem value={3}>Litro</MenuItem>
+              <MenuItem value={4}>Mililitros</MenuItem>
+              <MenuItem value={5}>Unidades</MenuItem>
             </Select>
             <TextField
               margin="dense"
@@ -186,7 +264,7 @@ function Paso2() {
 
         <button
           className="mt-4 px-4 py-2 bg-pink-200 text-black rounded hover:bg-pink-400 transition-colors duration-200"
-          onClick={() => setPasoActual(pasoActual + 1)}
+          onClick={guardarDatosExtras}
         >
           Siguiente
         </button>

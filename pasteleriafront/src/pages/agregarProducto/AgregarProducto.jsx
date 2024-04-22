@@ -8,6 +8,9 @@ import Paso2 from "./Paso2";
 import Paso1 from "./Paso1";
 import Paso3 from "./Paso3";
 import NavBarAdmin from "../NavAdmin";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 
 function AgregarProducto() {
@@ -45,6 +48,7 @@ function AgregarProducto() {
       <div className="py-5">
       {mostrarPasos(pasoActual)}
       </div>
+      <ToastContainer />
     </>
   );
 }

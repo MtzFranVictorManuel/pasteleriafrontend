@@ -1,6 +1,8 @@
 import { useState } from "react";
 import logo from "../imagenes/logo.jpeg";
 import NavAdmin from "./NavAdmin";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
@@ -13,6 +15,8 @@ function App() {
       >
         Agregar Producto
       </a>
+
+      <ToastContainer />
     </div>
   );
 }
