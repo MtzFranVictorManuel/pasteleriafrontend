@@ -35,7 +35,7 @@ function AgregarProducto() {
       <div className="flex justify-center items-center text-3xl font-bold py-5 bg-pink-100">
       <Stepper activeStep={pasoActual} className="w-2/3">
         <Step>
-          <StepLabel>Datos basicos</StepLabel>
+          <StepLabel>Datos básicos</StepLabel>
         </Step>
         <Step>
           <StepLabel>Datos extras</StepLabel>

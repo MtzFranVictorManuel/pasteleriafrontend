@@ -5,12 +5,14 @@ import Productos from "./pages/Productos.jsx";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AgregarProducto from "./pages/agregarProducto/AgregarProducto.jsx";
 import Contexto from "./pages/agregarProducto/Contexto.jsx";
+import PaginaPrincipal from "./pages/PaginaPrincipal.jsx";
 function Main() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/productos" element={<Productos />} />
+        <Route path="/paginaPrincipal" element={<PaginaPrincipal />} />
         <Route path="/agregarProducto" element={<Contexto><AgregarProducto /></Contexto>} />
       </Routes>
     </Router>

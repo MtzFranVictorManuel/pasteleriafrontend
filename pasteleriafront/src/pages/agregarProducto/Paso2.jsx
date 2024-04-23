@@ -136,6 +136,17 @@ function Paso2() {
       });
   }
 
+  const pasoRetroceder = () => {
+    console.log("Guardando datos extras");
+    console.log("Categorias seleccionadas", categoriasSeleccionadas);
+    console.log("Ingredientes seleccionados", ingredientesSeleccionados);
+    setProductoDatosExtras({
+      categorias: categoriasSeleccionadas,
+      ingredientes: ingredientesSeleccionados,
+    });
+    setPasoActual(pasoActual - 1);
+  }
+
   const guardarDatosExtras = () => {
     console.log("Guardando datos extras");
     console.log("Categorias seleccionadas", categoriasSeleccionadas);
@@ -178,7 +189,7 @@ function Paso2() {
         </FormControl>
         <button
           className="mt-4 px-4 py-2 bg-pink-200 text-black rounded hover:bg-pink-400 transition-colors duration-200"
-          onClick={() => setPasoActual(pasoActual - 1)}
+          onClick={pasoRetroceder}
         >
           Retroceder
         </button>
@@ -236,6 +247,7 @@ function Paso2() {
               value={nuevoIngrediente.idMedida}
               onChange={manejarCambioNuevoIngrediente}
               name="idMedida"
+              placeholder="Unidad de medida"
               fullWidth
             >
               <MenuItem value={1}>Kilogramos</MenuItem>
