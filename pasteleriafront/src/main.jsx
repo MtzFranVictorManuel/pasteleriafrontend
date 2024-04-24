@@ -8,12 +8,14 @@ import Contexto from "./pages/agregarProducto/Contexto.jsx";
 import Registrar from "./pages/Registrar.jsx";
 
 
+import PaginaPrincipal from "./pages/PaginaPrincipal.jsx";
 function Main() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/productos" element={<Productos />} />
+        <Route path="/paginaPrincipal" element={<PaginaPrincipal />} />
         <Route path="/agregarProducto" element={<Contexto><AgregarProducto /></Contexto>} />
         <Route path="/registrar" element={<Registrar />} />
 

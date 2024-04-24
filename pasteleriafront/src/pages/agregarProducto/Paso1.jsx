@@ -1,16 +1,18 @@
-import { useContext, useState, useCallback } from "react";
+import { useContext, useState, useCallback, useEffect } from "react";
 import { RegistroContext } from "./Contexto";
 import { useDropzone } from "react-dropzone";
 import { TextField } from "@mui/material";
 
 function Paso1() {
-  const { setPasoActual,setProductoDatosBasicos,productoDatosBasicos} = useContext(RegistroContext);
+  const { setPasoActual, setProductoDatosBasicos, productoDatosBasicos } =
+    useContext(RegistroContext);
 
   const [nombre, setNombre] = useState(productoDatosBasicos.nombre || "");
-  const [descripcion, setDescripcion] = useState(productoDatosBasicos.descripcion || "");
+  const [descripcion, setDescripcion] = useState(
+    productoDatosBasicos.descripcion || ""
+  );
   const [costo, setCosto] = useState(productoDatosBasicos.costo || "");
-  const [imagen, setImagen] = useState(productoDatosBasicos.imagen || null);
-  const [files, setFiles] = useState([]);
+  const [imagenes, setImagenes] = useState(productoDatosBasicos.imagenes || []);
   const [placeholder, setPlaceholder] = useState(
     "https://via.placeholder.com/150"
   );
@@ -24,28 +26,64 @@ function Paso1() {
     });
   };
 
-  const onDrop = useCallback(async (acceptedFiles) => {
-    const file = acceptedFiles[0];
-    const imageUrl = await readImageFile(file);
-    setImagen(imageUrl);
-  }, []);
+  const onDrop = useCallback(
+    (acceptedFiles) => {
+      if (acceptedFiles.length === 0) {
+        console.log("No se aceptaron archivos");
+        return;
+      }
+      if (acceptedFiles.length + imagenes.length > 5) {
+        alert("No puedes cargar más de 5 imágenes");
+        return;
+      }
+
+      const file = acceptedFiles[0];
+      const reader = new FileReader();
+
+      reader.onloadend = () => {
+        setImagenes((prevImagenes) => [...prevImagenes, reader.result]);
+      };
+
+      reader.readAsDataURL(file);
+    },
+    [imagenes]
+  );
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
     accept: "image/*",
+    multiple: true,
+    maxSize: 5 * 1024 * 1024,
   });
 
+  const eliminarImagen = (index) => (event) => {
+    event.stopPropagation();
+    setImagenes((prevImagenes) => prevImagenes.filter((_, i) => i !== index));
+  };
+
+  const validarDatosBasicos = () => {
+    if (!nombre || !descripcion || !costo || imagenes.length === 0) {
+      alert("Por favor, completa todos los campos y asegúrate de haber cargado al menos una imagen.");
+      return false;
+    }
+    return true;
+  };
+
   const guardarDatosBasicos = () => {
+    if (!validarDatosBasicos()) {
+      return;
+    }
+
     console.log("Guardando datos basicos");
     console.log("nombre", nombre);
     console.log("descripcion", descripcion);
     console.log("costo", costo);
-    console.log("imagen", imagen);
+    console.log("imagenes", imagenes);
     setProductoDatosBasicos({
       nombre,
       descripcion,
       costo,
-      imagen,
+      imagenes,
     });
     setPasoActual(1);
   };
@@ -89,14 +127,20 @@ function Paso1() {
           />
         </label>
         <label className="block mb-4">
-          <span className="text-gray-700">Imagen principal del producto:</span>
-          <div
-            className="w-60 h-60"
-            {...getRootProps({ className: "dropzone" })}
-          >
+          <span className="text-gray-700">Imagenes del producto: (Arrastre la imagen max 5)</span>
+          <div className="flex" {...getRootProps({ className: "dropzone" })}>
             <input {...getInputProps()} />
-            {imagen ? (
-              <img src={imagen} alt="Preview" />
+            {imagenes.length > 0 ? (
+              imagenes.map((img, index) => (
+                <div key={index}>
+                  <img
+                    src={img}
+                    alt={`Preview ${index}`}
+                    style={{ width: "150px", height: "150px" }}
+                  />
+                  <button onClick={eliminarImagen(index)}>Eliminar</button>
+                </div>
+              ))
             ) : (
               <img src={placeholder} alt="Placeholder" />
             )}

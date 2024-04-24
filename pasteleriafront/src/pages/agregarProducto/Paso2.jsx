@@ -1,5 +1,6 @@
 import { useContext, useState,useEffect } from "react";
 import { RegistroContext } from "./Contexto";
+import { API_URL } from "../../services/Constantes";
 import {
   TextField,
   Select,
@@ -17,11 +18,15 @@ import {
   Button,
 } from "@mui/material";
 
-import axios from 'axios';
-
+import axios from "axios";
 
 function Paso2() {
-  const { pasoActual, setPasoActual } = useContext(RegistroContext);
+  const {
+    pasoActual,
+    setPasoActual,
+    productoDatosExtras,
+    setProductoDatosExtras,
+  } = useContext(RegistroContext);
 
   const [categoria, setCategoria] = useState("");
 
@@ -46,6 +51,7 @@ function Paso2() {
     if (newValue) {
       setCategoriasSeleccionadas([...categoriasSeleccionadas, newValue]);
       setCategoria("");
+      setCategoria(null);
     }
   };
 
@@ -81,41 +87,76 @@ function Paso2() {
     );
   };
 
+  useEffect(() => {
+    if (pasoActual === 1) {
+      console.log("Paso 2");
+      console.log(productoDatosExtras);
+      if (productoDatosExtras.categorias) {
+        setCategoriasSeleccionadas(productoDatosExtras.categorias);
+      }
+      if (productoDatosExtras.ingredientes) {
+        setIngredientesSeleccionados(productoDatosExtras.ingredientes);
+      }
+    }
+  }, [pasoActual, productoDatosExtras]);
+
+  function recuperarIngredientesApi() {
+    axios.get(API_URL+"ingredientes").then((response) => {
+      console.log(response.data);
+      setIngredientes(response.data);
+    });
+  }
 
   useEffect(() => {
-    axios.get('http://127.0.0.1:8000/categorias')
-      .then(response => {
-        const nombres = response.data.map(categoria => categoria.nombre);
-        console.log(nombres);
-        setCategorias(nombres);
-      });
+    axios.get(API_URL+"categorias").then((response) => {
+      const categorias = response.data.map((categoria) => ({
+        nombre: categoria.nombre,
+        idCategoria: categoria.idCategoria,
+      }));
+      console.log(categorias);
+      setCategorias(categorias);
+    });
   }, []);
 
   useEffect(() => {
     recuperarIngredientesApi();
   }, []);
 
-  function recuperarIngredientesApi() {
-    axios.get('http://127.0.0.1:8000/ingredientes')
-      .then(response => {
-        console.log(response.data);
-        setIngredientes(response.data);
-      });
-  }
-
   function guardarIngrediente() {
-    axios.post('http://127.0.0.1:8000/ingrediente',
-      {
+    console.log(nuevoIngrediente);
+    axios
+      .post("http://127.0.0.1:8000/ingrediente", {
         nombre: nuevoIngrediente.nombre,
         cantidad: nuevoIngrediente.cantidad,
-        idMedida: nuevoIngrediente.idMedida
+        idMedida: nuevoIngrediente.idMedida,
       })
-      .then(response => {
+      .then((response) => {
         console.log(response.data);
         recuperarIngredientesApi();
       });
-    }
+  }
 
+  const pasoRetroceder = () => {
+    console.log("Guardando datos extras");
+    console.log("Categorias seleccionadas", categoriasSeleccionadas);
+    console.log("Ingredientes seleccionados", ingredientesSeleccionados);
+    setProductoDatosExtras({
+      categorias: categoriasSeleccionadas,
+      ingredientes: ingredientesSeleccionados,
+    });
+    setPasoActual(pasoActual - 1);
+  }
+
+  const guardarDatosExtras = () => {
+    console.log("Guardando datos extras");
+    console.log("Categorias seleccionadas", categoriasSeleccionadas);
+    console.log("Ingredientes seleccionados", ingredientesSeleccionados);
+    setProductoDatosExtras({
+      categorias: categoriasSeleccionadas,
+      ingredientes: ingredientesSeleccionados,
+    });
+    setPasoActual(pasoActual + 1);
+  };
 
   return (
     <div className="flex">
@@ -125,9 +166,13 @@ function Paso2() {
           <Autocomplete
             value={categoria}
             onChange={manejarCambioCategoria}
-            options={categorias.filter(
-              (cat) => !categoriasSeleccionadas.includes(cat)
-            )}
+            options={categorias ? categorias.filter(
+              (cat) =>
+                !categoriasSeleccionadas.some(
+                  (cs) => cs.idCategoria === cat.idCategoria
+                )
+            ) : []} // Asegúrate de que categorias está definido antes de usarlo
+            getOptionLabel={(option) => option ? option.nombre : ''}
             renderInput={(params) => (
               <TextField {...params} label="Categoría" />
             )}
@@ -135,8 +180,8 @@ function Paso2() {
 
           {categoriasSeleccionadas.map((categoria) => (
             <Chip
-              key={categoria}
-              label={categoria}
+              key={categoria.idCategoria}
+              label={categoria.nombre}
               onDelete={() => eliminarCategoria(categoria)}
               className="m-1"
             />
@@ -144,7 +189,7 @@ function Paso2() {
         </FormControl>
         <button
           className="mt-4 px-4 py-2 bg-pink-200 text-black rounded hover:bg-pink-400 transition-colors duration-200"
-          onClick={() => setPasoActual(pasoActual - 1)}
+          onClick={pasoRetroceder}
         >
           Retroceder
         </button>
@@ -156,7 +201,10 @@ function Paso2() {
           value={ingredienteSeleccionado}
           onChange={manejarCambioIngrediente}
           options={ingredientes.filter(
-            (ing) => !ingredientesSeleccionados.includes(ing)
+            (ing) =>
+              !ingredientesSeleccionados.some(
+                (is) => is.idIngrediente === ing.idIngrediente
+              )
           )}
           getOptionLabel={(option) =>
             `${option.nombre} - ${option.cantidad} ${option.nombreMedida}`
@@ -198,7 +246,8 @@ function Paso2() {
             <Select
               value={nuevoIngrediente.idMedida}
               onChange={manejarCambioNuevoIngrediente}
-              name="tipo"
+              name="idMedida"
+              placeholder="Unidad de medida"
               fullWidth
             >
               <MenuItem value={1}>Kilogramos</MenuItem>
@@ -227,7 +276,7 @@ function Paso2() {
 
         <button
           className="mt-4 px-4 py-2 bg-pink-200 text-black rounded hover:bg-pink-400 transition-colors duration-200"
-          onClick={() => setPasoActual(pasoActual + 1)}
+          onClick={guardarDatosExtras}
         >
           Siguiente
         </button>
