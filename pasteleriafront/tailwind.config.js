@@ -8,6 +8,7 @@ export default {
     extend: {
       fontFamily: {
         'pacifico': ['Pacifico', 'cursive'],
+        'fjalla': ['Fjalla One', 'sans-serif'],
       }
     }
   },
