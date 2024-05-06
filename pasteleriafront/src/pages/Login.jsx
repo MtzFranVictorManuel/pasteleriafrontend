@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import './Registrar.jsx'
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from './autentificador/AuthContext';
 
 
 import Logo from '../imagenes/logo.jpeg';
@@ -12,6 +14,9 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
+
+  const { setIsLoggedIn, setUser } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
@@ -43,6 +48,7 @@ const Login = () => {
       setPasswordError(true);
       return;
     }
+    
 
     try {
       const response = await axios.post('http://127.0.0.1:8000/login', {
@@ -50,18 +56,26 @@ const Login = () => {
         password: password
       });
   
-      console.log(response.data.message);
-    } catch (error) {
+      if (response.data.message === 'Inicio de sesión exitoso') {
+        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('email', response.data.email); // Guarda el correo electrónico en el almacenamiento local
+        console.log('Correo electrónico guardado:', response.data.email); // Imprime el correo electrónico guardado
+        setIsLoggedIn(true);
+        navigate('/home');
+      } else {
+        alert(response.data.message);
+      }
+    }  catch (error) {
       if (error.response) {
         // La petición fue hecha y el servidor respondió con un código de estado
         // que cae fuera del rango de 2xx
-        console.log(error.response.data.detail);
+        alert(error.response.data.detail);
       } else if (error.request) {
         // La petición fue hecha pero no se recibió ninguna respuesta
-        console.log(error.request);
+        alert(error.request);
       } else {
         // Algo sucedió en la configuración de la petición que provocó un error
-        console.log('Error', error.message);
+        alert('Error', error.message);
       }
     }
   };

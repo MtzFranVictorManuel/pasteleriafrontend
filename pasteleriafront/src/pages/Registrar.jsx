@@ -3,6 +3,8 @@ import { TextField, Button } from '@mui/material';
 import { Link } from 'react-router-dom';
 import Logo from '../imagenes/logo.jpeg';
 import '../styles/loginStyle.css';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function Register() {
     const [email, setEmail] = useState('');
@@ -12,6 +14,8 @@ function Register() {
     const [passwordError, setPasswordError] = useState(false);
     const [confirmPasswordError, setConfirmPasswordError] = useState(false);
     const [passwordMatchError, setPasswordMatchError] = useState(false);
+
+    const navigate = useNavigate();
 
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
@@ -30,7 +34,7 @@ function Register() {
         setPasswordMatchError(false);
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (!email || !password || !confirmPassword) {
             if (!email) setEmailError(true);
             if (!password) setPasswordError(true);
@@ -43,7 +47,21 @@ function Register() {
             return;
         }
 
-        //  HTTP POST usando fetch o axios.
+        try {
+            const response = await axios.post('http://127.0.0.1:8000/registrarUsuario', {
+              email: email,
+              password: password
+            });
+        
+            if (response.data.message === 'Usuario registrado correctamente') {
+              alert('Usuario registrado correctamente');
+              navigate('/login'); // Redirige al usuario a la página de inicio de sesión
+            } else {
+              alert(response.data.message);
+            }
+          } catch (error) {
+            console.error('Hubo un error al registrar el usuario', error);
+          }
     };
 
     return (
@@ -85,7 +103,7 @@ function Register() {
                     Registrar
                 </Button>
                 <Button variant="text" color="inherit">
-                    <Link to="/">Regresar</Link>
+                    <Link to="/login">Regresar</Link>
                 </Button>
             </div>
         </div>
