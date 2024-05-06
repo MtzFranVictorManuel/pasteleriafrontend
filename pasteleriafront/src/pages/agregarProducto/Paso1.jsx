@@ -147,7 +147,7 @@ function Paso1() {
           </div>
         </label>
       </form>
-      <a href='/productos' className="bg-red-300 rounded-lg" onClick={() => console.log('Cancelar')}>
+      <a href='/productos' className="bg-red-300 rounded-lg p-4" onClick={() => console.log('Cancelar')}>
         Cancelar
       </a>
       <button

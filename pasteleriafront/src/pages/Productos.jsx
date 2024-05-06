@@ -41,9 +41,12 @@ function App() {
       });
   }
 
-  useEffect(() => {
+  function openModal(product) {
+    setSelectedProduct(product);
+    setModalIsOpen(true);
+
     axios
-      .get("http://localhost:8000/categoria_producto/25")
+      .get(API_URL + "categoria_producto/" + product.idProducto)
       .then((response) => {
         const categoriasNombres = response.data.map(
           (item) => item.nombreCategoria
@@ -55,7 +58,7 @@ function App() {
       });
 
     axios
-      .get("http://localhost:8000/producto_ingrediente/25")
+      .get(API_URL + "producto_ingrediente/" + product.idProducto)
       .then((response) => {
         const ingredientesNombres = response.data.map(
           (item) => item.nombreIngrediente
@@ -65,11 +68,6 @@ function App() {
       .catch((error) => {
         console.error("There was an error!", error);
       });
-  }, []);
-
-  function openModal(product) {
-    setSelectedProduct(product);
-    setModalIsOpen(true);
   }
 
   function closeModal() {
@@ -80,7 +78,12 @@ function App() {
     const nombre = document.getElementById("nombre").value;
     const descripcion = document.getElementById("descripcion").value;
     const costo = document.getElementById("costo").value;
-    console.log(selectedProduct.idProducto, nombre, descripcion, costo);
+
+    if (!nombre || !descripcion || !costo) {
+      alert("Por favor, rellene todos los campos o ponga un numero valido en costo.");
+      return;
+    }
+
     const updatedProduct = {
       idProducto: selectedProduct.idProducto,
       nombre: nombre,
@@ -161,6 +164,7 @@ function App() {
               type="number"
               defaultValue={selectedProduct.costo}
               fullWidth
+              inputProps={{ pattern: "\\d*" }}
             />
             <div>
               {categorias.map((categoria, i) => (

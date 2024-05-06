@@ -1,4 +1,4 @@
-import { useContext, useState,useEffect } from "react";
+import { useContext, useState, useEffect } from "react";
 import { RegistroContext } from "./Contexto";
 import { API_URL } from "../../services/Constantes";
 import {
@@ -101,14 +101,14 @@ function Paso2() {
   }, [pasoActual, productoDatosExtras]);
 
   function recuperarIngredientesApi() {
-    axios.get(API_URL+"ingredientes").then((response) => {
+    axios.get(API_URL + "ingredientes").then((response) => {
       console.log(response.data);
       setIngredientes(response.data);
     });
   }
 
   useEffect(() => {
-    axios.get(API_URL+"categorias").then((response) => {
+    axios.get(API_URL + "categorias").then((response) => {
       const categorias = response.data.map((categoria) => ({
         nombre: categoria.nombre,
         idCategoria: categoria.idCategoria,
@@ -145,7 +145,7 @@ function Paso2() {
       ingredientes: ingredientesSeleccionados,
     });
     setPasoActual(pasoActual - 1);
-  }
+  };
 
   const guardarDatosExtras = () => {
     console.log("Guardando datos extras");
@@ -166,13 +166,17 @@ function Paso2() {
           <Autocomplete
             value={categoria}
             onChange={manejarCambioCategoria}
-            options={categorias ? categorias.filter(
-              (cat) =>
-                !categoriasSeleccionadas.some(
-                  (cs) => cs.idCategoria === cat.idCategoria
-                )
-            ) : []} // Asegúrate de que categorias está definido antes de usarlo
-            getOptionLabel={(option) => option ? option.nombre : ''}
+            options={
+              categorias
+                ? categorias.filter(
+                    (cat) =>
+                      !categoriasSeleccionadas.some(
+                        (cs) => cs.idCategoria === cat.idCategoria
+                      )
+                  )
+                : []
+            } // Asegúrate de que categorias está definido antes de usarlo
+            getOptionLabel={(option) => (option ? option.nombre : "")}
             renderInput={(params) => (
               <TextField {...params} label="Categoría" />
             )}
@@ -187,12 +191,20 @@ function Paso2() {
             />
           ))}
         </FormControl>
+
         <button
           className="mt-4 px-4 py-2 bg-pink-200 text-black rounded hover:bg-pink-400 transition-colors duration-200"
           onClick={pasoRetroceder}
         >
           Retroceder
         </button>
+        <a
+          href="/productos"
+          className="bg-red-300 rounded-lg p-4"
+          onClick={() => console.log("Cancelar")}
+        >
+          Cancelar
+        </a>
       </div>
       <div className="w-1/2 p-4 flex flex-col">
         <h1 className="mb-4 text-2xl font-bold text-gray-700">Ingredientes</h1>

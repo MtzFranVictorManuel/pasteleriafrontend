@@ -177,6 +177,13 @@ function Paso3() {
       </div>
 
       <div className="flex justify-between mt-4">
+        <a
+          href="/productos"
+          className="bg-red-300 rounded-lg p-4"
+          onClick={() => console.log("Cancelar")}
+        >
+          Cancelar
+        </a>
         <button
           className="px-4 py-2 bg-pink-200 text-black rounded hover:bg-pink-400 transition-colors duration-200"
           onClick={() => setPasoActual(pasoActual - 1)}
