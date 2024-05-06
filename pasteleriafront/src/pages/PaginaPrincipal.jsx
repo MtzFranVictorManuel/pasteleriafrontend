@@ -14,10 +14,10 @@ function PaginaPrincipal() {
       <NavBarSinLogin />
 
       <header className="text-center py-5">
-        <h1 className="text-3xl font-pacifico m-2">
+        <h1 className="text-3xl font-pacifico m-2 text-pink-300">
           Bienvenido a Repostería Rosario
         </h1>
-        <p className="text-xl font-fjalla">
+        <p className="text-xl font-fjalla text-pink-300">
           Los mejores dulces y pasteles a tu alcance
         </p>
       </header>
@@ -53,6 +53,13 @@ function PaginaPrincipal() {
       <footer className="py-5 text-center bg-teal-100">
         <p>© 2024 Reposteria Rosario. Todos los derechos reservados.</p>
       </footer>
+
+      <a href="https://wa.me/1234567890?text=Hola%20estoy%20interesado%20en%20sus%20productos" 
+         className="fixed bottom-4 right-4 bg-green-500 text-white p-2 rounded-full" 
+         target="_blank" 
+         rel="noopener noreferrer">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" width="24" height="24" />
+      </a>
     </div>
   );
 }

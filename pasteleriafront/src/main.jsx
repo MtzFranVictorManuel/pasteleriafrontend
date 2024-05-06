@@ -4,8 +4,11 @@ import "./styles/index.css";
 import Productos from "./pages/Productos.jsx";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AgregarProducto from "./pages/agregarProducto/AgregarProducto.jsx";
-import Contexto from "./pages/agregarProducto/Contexto.jsx";
+import ContextoProducto from "./pages/agregarProducto/Contexto.jsx";
 import PaginaPrincipal from "./pages/PaginaPrincipal.jsx";
+import Cesta from "./pages/Cesta.jsx";
+import HacerPedido from "./pages/realizarPedido/HacerPedido.jsx";
+import ContextoPedido from "./pages/realizarPedido/ContextoPedido.jsx";
 function Main() {
   return (
     <Router>
@@ -13,7 +16,9 @@ function Main() {
         <Route path="/" element={<Login />} />
         <Route path="/productos" element={<Productos />} />
         <Route path="/paginaPrincipal" element={<PaginaPrincipal />} />
-        <Route path="/agregarProducto" element={<Contexto><AgregarProducto /></Contexto>} />
+        <Route path="/agregarProducto" element={<ContextoProducto><AgregarProducto /></ContextoProducto>} />
+        <Route path="/cesta" element={<Cesta />} />
+        <Route path="/hacerPedido" element={<ContextoPedido><HacerPedido/></ContextoPedido>} />
       </Routes>
     </Router>
   );
