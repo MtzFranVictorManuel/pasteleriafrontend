@@ -147,6 +147,9 @@ function Paso1() {
           </div>
         </label>
       </form>
+      <a href='/productos' className="bg-red-300 rounded-lg" onClick={() => console.log('Cancelar')}>
+        Cancelar
+      </a>
       <button
         onClick={guardarDatosBasicos}
         className="mt-4 px-4 py-2 bg-pink-200 text-black rounded hover:bg-pink-400 transition-colors duration-200"

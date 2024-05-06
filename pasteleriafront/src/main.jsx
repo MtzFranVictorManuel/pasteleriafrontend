@@ -8,7 +8,11 @@ import Contexto from "./pages/agregarProducto/Contexto.jsx";
 import Registrar from "./pages/Registrar.jsx";
 
 
+import ContextoProducto from "./pages/agregarProducto/Contexto.jsx";
 import PaginaPrincipal from "./pages/PaginaPrincipal.jsx";
+import Cesta from "./pages/Cesta.jsx";
+import HacerPedido from "./pages/realizarPedido/HacerPedido.jsx";
+import ContextoPedido from "./pages/realizarPedido/ContextoPedido.jsx";
 function Main() {
   return (
     <Router>
@@ -19,6 +23,9 @@ function Main() {
         <Route path="/agregarProducto" element={<Contexto><AgregarProducto /></Contexto>} />
         <Route path="/registrar" element={<Registrar />} />
 
+        <Route path="/agregarProducto" element={<ContextoProducto><AgregarProducto /></ContextoProducto>} />
+        <Route path="/cesta" element={<Cesta />} />
+        <Route path="/hacerPedido" element={<ContextoPedido><HacerPedido/></ContextoPedido>} />
       </Routes>
     </Router>
   );
