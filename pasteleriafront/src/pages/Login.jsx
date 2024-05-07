@@ -1,17 +1,22 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import '../styles/loginStyle.css'; 
 import './Registrar.jsx'
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from './autentificador/AuthContext';
 
 
-import Logo from '../imagenes/logo.png';
+import Logo from '../imagenes/logo.jpeg';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
+
+  const { setIsLoggedIn, setUser } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
@@ -23,39 +28,65 @@ const Login = () => {
     setPasswordError(false);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    if((email == null || email =='') && (password == null || password =='')){
+    if ((email == null || email == '') && (password == null || password == '')) {
       alert('Correo Electrónico y Contraseña no pueden estar vacíos');
       setEmailError(true);
       setPasswordError(true);
       return;
     }
-    if(email == null || email ==''){
+    if (email == null || email == '') {
       alert('Correo Electrónico no puede estar vacío');
       setEmailError(true);
       setPasswordError(false);
       return;
     }
-    if(password == null || password ==''){
+    if (password == null || password == '') {
       alert('Contraseña no puede estar vacía');
       setEmailError(false);
       setPasswordError(true);
       return;
     }
     
-    console.log('Email:', email);
-    console.log('Password:', password);
+
+    try {
+      const response = await axios.post('http://127.0.0.1:8000/login', {
+        email: email,
+        password: password
+      });
+  
+      if (response.data.message === 'Inicio de sesión exitoso') {
+        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('email', response.data.email); // Guarda el correo electrónico en el almacenamiento local
+        console.log('Correo electrónico guardado:', response.data.email); // Imprime el correo electrónico guardado
+        setIsLoggedIn(true);
+        navigate('/home');
+      } else {
+        alert(response.data.message);
+      }
+    }  catch (error) {
+      if (error.response) {
+        // La petición fue hecha y el servidor respondió con un código de estado
+        // que cae fuera del rango de 2xx
+        alert(error.response.data.detail);
+      } else if (error.request) {
+        // La petición fue hecha pero no se recibió ninguna respuesta
+        alert(error.request);
+      } else {
+        // Algo sucedió en la configuración de la petición que provocó un error
+        alert('Error', error.message);
+      }
+    }
   };
 
+
+
   return (
-    <div className="container">
-      <div className="logoContainer">
+    <div>
+      <form className="flex flex-col items-center justify-center h-screen space-y-4" onSubmit={handleSubmit}>
         <img src={Logo} alt="Logo" className="logo" />
-      </div>
-      
-      <form className="root" onSubmit={handleSubmit}>
-      <h1>Login</h1>
+        <h1 className="text-3xl font-bold">Login</h1>
         <TextField
           id={emailError ? "outlined-error" : "outlined-email"}
           label="Correo Electrónico"
@@ -63,6 +94,7 @@ const Login = () => {
           value={email}
           onChange={handleEmailChange}
           error={emailError}
+          className="mb-4 w-80"
         />
         <TextField
           id={passwordError ? "outlined-error" : "outlined-password"}
@@ -72,14 +104,15 @@ const Login = () => {
           value={password}
           onChange={handlePasswordChange}
           error={passwordError}
+          className="mb-4 w-80"
         />
         <Button variant="contained" type="submit">
           Iniciar sesión
         </Button>
         <div className="linkContainer">
-          <a href="/forgot-password">¿Olvidaste tu contraseña?</a>
+          <a href="/forgot-password" style={{color:"blue"}}>¿Olvidaste tu contraseña?</a>
           <span style={{ margin: '0 10px' }}>|</span>
-          <a href="/Registrar">Registrarse</a>
+          <a href="/Registrar" style={{color:"blue"}}>Registrarse</a>
         </div>
       </form>
     </div>

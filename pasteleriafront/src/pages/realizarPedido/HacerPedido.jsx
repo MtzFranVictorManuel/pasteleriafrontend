@@ -2,20 +2,15 @@ import { useContext } from "react";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
-
-import { RegistroContext } from "./Contexto";
-import Paso2 from "./Paso2";
+import { PedidoContexto } from "./ContextoPedido";
 import Paso1 from "./Paso1";
+import Paso2 from "./Paso2";
 import Paso3 from "./Paso3";
-import NavBarAdmin from "../NavAdmin";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
-
 
 function AgregarProducto() {
-  const { pasoActual, datosFinales } = useContext(RegistroContext);
-  const { setDatosBasicos, setDatosExtras, setDatosFinales } = useContext(RegistroContext);
+
+  const { pasoActual, datosFinales } = useContext(PedidoContexto);
+  const { setDatosBasicos, setDatosExtras, setDatosFinales } = useContext(PedidoContexto);
 
 
   function mostrarPasos(paso) {
@@ -29,28 +24,28 @@ function AgregarProducto() {
         return <Paso3 setDatosFinales={setDatosFinales}/>;
     }
   }
-  return (
+
+      return (
     <>
-    <NavBarAdmin/>
-      <div className="flex justify-center items-center text-3xl font-bold py-5 bg-pink-100">
+      <div className="flex justify-center items-center text-3xl font-bold py-5 bg-teal-100">
       <Stepper activeStep={pasoActual} className="w-2/3">
         <Step>
-          <StepLabel>Datos básicos</StepLabel>
+          <StepLabel>Direcciones</StepLabel>
         </Step>
         <Step>
-          <StepLabel>Datos extras</StepLabel>
+          <StepLabel>Forma de pago</StepLabel>
         </Step>
         <Step>
-          <StepLabel>Finalizar</StepLabel>
+          <StepLabel>Finalizar pedido</StepLabel>
         </Step>
       </Stepper>
       </div>
       <div className="py-5">
       {mostrarPasos(pasoActual)}
       </div>
-      <ToastContainer />
     </>
   );
 }
+
 
 export default AgregarProducto;

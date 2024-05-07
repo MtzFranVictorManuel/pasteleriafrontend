@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useState} from "react";
 
-import AgregarProducto from "./AgregarProducto";
-export const RegistroContext = React.createContext();
+import HacerPedido from "./HacerPedido";
+export const PedidoContexto = React.createContext();
 
-function Contexto() {
+function ContextoPedido() {
   const [pasoActual, setPasoActual] = useState(0);
   const [productoDatosBasicos, setProductoDatosBasicos] = useState([]);
   const [productoDatosExtras, setProductoDatosExtras] = useState([]);
@@ -14,7 +14,7 @@ function Contexto() {
   }
   return (
     <>
-      <RegistroContext.Provider
+      <PedidoContexto.Provider
         value={{
           pasoActual,
           setPasoActual,
@@ -26,10 +26,10 @@ function Contexto() {
           setProductoDatosFinales,
         }}
       >
-        <AgregarProducto />
-      </RegistroContext.Provider>
+        <HacerPedido />
+      </PedidoContexto.Provider>
     </>
   );
 }
 
-export default Contexto;
+export default ContextoPedido;
