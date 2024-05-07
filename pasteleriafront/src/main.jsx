@@ -7,6 +7,8 @@ import AgregarProducto from "./pages/agregarProducto/AgregarProducto.jsx";
 import Contexto from "./pages/agregarProducto/Contexto.jsx";
 import Registrar from "./pages/Registrar.jsx";
 
+import ProductList from "./pages/visualizarProducto/ProductList.jsx";
+
 
 function Main() {
   return (
@@ -16,6 +18,7 @@ function Main() {
         <Route path="/productos" element={<Productos />} />
         <Route path="/agregarProducto" element={<Contexto><AgregarProducto /></Contexto>} />
         <Route path="/registrar" element={<Registrar />} />
+        <Route path="/visualizarProductos" element={<ProductList />} />
       </Routes>
     </Router>
   );
