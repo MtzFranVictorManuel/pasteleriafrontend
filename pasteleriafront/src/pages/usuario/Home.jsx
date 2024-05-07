@@ -50,8 +50,8 @@ const Home = () => {
   return (
     <Box sx={{ m: 0, p: 0 }}>
       <AppBar position="static">
-        <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
-          <IconButton edge="start" color="inherit" aria-label="menu">
+        <Toolbar className='bg-teal-100' sx={{ display: 'flex', justifyContent: 'space-between' }}>
+          <IconButton edge="start" aria-label="menu" className='bg-pink-100'>
             <ArrowBackIcon />
           </IconButton>
           <Box sx={{ display: 'flex', gap: 2 }}>
