@@ -12,6 +12,8 @@ import PrivateRoute from "./pages/rutasPrivadas/PrivateRoute.jsx";
 import { AuthContext, AuthProvider } from "./pages/autentificador/AuthContext.jsx";
 import Home from "./pages/usuario/Home.jsx";
 
+import ProductList from "./pages/visualizarProducto/ProductList.jsx";
+
 
 
 import ContextoProducto from "./pages/agregarProducto/Contexto.jsx";
@@ -31,6 +33,9 @@ function Main() {
         <Route path="/paginaPrincipal" element={<PaginaPrincipal />} />
         <Route path="/agregarProducto" element={<Contexto><AgregarProducto /></Contexto>} />
         <Route path="/registrar" element={<Registrar />} />
+
+        <Route path="/visualizarProductos" element={<ProductList />} />
+
         <Route path="/agregarProducto" element={<ContextoProducto><AgregarProducto /></ContextoProducto>} />
         <Route path="/cesta" element={<Cesta />} />
         <Route path="/hacerPedido" element={<ContextoPedido><HacerPedido/></ContextoPedido>} />
