@@ -147,12 +147,12 @@ function Paso1() {
           </div>
         </label>
       </form>
-      <a href='/productos' className="bg-red-300 rounded-lg p-4" onClick={() => console.log('Cancelar')}>
+      <a href='/productos' className="bg-red-200 rounded-lg px-4 py-2 hover:bg-red-400 transition-colors duration-200" onClick={() => console.log('Cancelar')}>
         Cancelar
       </a>
       <button
         onClick={guardarDatosBasicos}
-        className="mt-4 px-4 py-2 bg-pink-200 text-black rounded hover:bg-pink-400 transition-colors duration-200"
+        className="mt-4 px-4 py-2 bg-green-200 text-black rounded hover:bg-green-400 transition-colors duration-200"
       >
         Siguiente
       </button>
