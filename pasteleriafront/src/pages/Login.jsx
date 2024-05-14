@@ -55,13 +55,14 @@ const Login = () => {
         email: email,
         password: password
       });
-  
+      console.log('Respuesta:', response.data);
       if (response.data.message === 'Inicio de sesión exitoso') {
-        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('token', response.data.idUsuario); // Guarda el token en el almacenamiento local
         localStorage.setItem('email', response.data.email); // Guarda el correo electrónico en el almacenamiento local
+        localStorage.setItem('rol', response.data.rol); // Guarda el rol en el almacenamiento local
         console.log('Correo electrónico guardado:', response.data.email); // Imprime el correo electrónico guardado
         setIsLoggedIn(true);
-        navigate('/home');
+        navigate('/');
       } else {
         alert(response.data.message);
       }

@@ -11,8 +11,6 @@ function PaginaPrincipal() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <NavBarSinLogin />
-
       <header className="text-center py-5">
         <h1 className="text-3xl font-pacifico m-2 text-pink-300">
           Bienvenido a Repostería Rosario

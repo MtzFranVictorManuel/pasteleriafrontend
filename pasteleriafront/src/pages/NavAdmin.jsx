@@ -1,6 +1,14 @@
 import logo from "../imagenes/logo.jpeg";
 
 function NavAdmin() {
+
+    function cerrarSesion() {
+        localStorage.removeItem('token');
+        localStorage.removeItem('email');
+        localStorage.removeItem('rol');
+        window.location.href = '/';
+    }
+    
     return (
       <nav className="flex items-center justify-between p-5 bg-pink-100">
         <div className="flex items-center space-x-2">
@@ -23,7 +31,8 @@ function NavAdmin() {
           >
             Productos
           </a>
-          <button className="bg-pink-200 text-black rounded-lg px-2 py-1 hover:bg-pink-400">
+          <button className="bg-pink-200 text-black rounded-lg px-2 py-1 hover:bg-pink-400"
+          onClick={cerrarSesion}>
             Cerrar Sesión
           </button>
         </div>

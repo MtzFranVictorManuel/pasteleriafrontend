@@ -1,13 +1,18 @@
-import { Route, Navigate } from 'react-router-dom';
 import { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../autentificador/AuthContext';
 
-const PrivateRoute = ({ path, children }) => {
-    const { isLoggedIn } = useContext(AuthContext);
-  
-    return (
-      <Route path={path} element={isLoggedIn ? children : <Navigate to="/login" />} />
-    );
+const PrivateRoute = ({ children, roles }) => {
+  const { isLoggedIn} = useContext(AuthContext);
+  const role = localStorage.getItem('rol');
+  const navigate = useNavigate();
+
+  if (!isLoggedIn || (roles.length > 0 && !roles.includes(role))) {
+    navigate('/');
+    return null;
+  }
+
+  return children;
 };
 
 export default PrivateRoute;

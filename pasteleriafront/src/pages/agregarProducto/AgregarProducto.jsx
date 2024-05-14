@@ -31,7 +31,6 @@ function AgregarProducto() {
   }
   return (
     <>
-    <NavBarAdmin/>
       <div className="flex justify-center items-center text-3xl font-bold py-5 bg-pink-100">
       <Stepper activeStep={pasoActual} className="w-2/3">
         <Step>

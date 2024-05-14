@@ -3,7 +3,6 @@ import NavBarSinLogin from "./NavBarSinLogin";
 function Cesta() {
   return (
     <>
-      <NavBarSinLogin />
       <h1>cesta</h1>
       <a
         href="/hacerPedido"
