@@ -22,7 +22,7 @@ function NavBarSinLogin() {
         <div className="flex space-x-4">
         <a
             className="text-xl text-black rounded-lg p-2 hover:bg-pink-400  font-fjalla"
-            href="/registrarse"
+            href="/registrar"
           >
             Registro
           </a>

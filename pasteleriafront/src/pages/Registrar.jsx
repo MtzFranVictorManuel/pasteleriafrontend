@@ -103,7 +103,7 @@ function Register() {
                     Registrar
                 </Button>
                 <Button variant="text" color="inherit">
-                    <Link to="/login">Regresar</Link>
+                    <Link to="/iniciarSesion">Regresar</Link>
                 </Button>
             </div>
         </div>

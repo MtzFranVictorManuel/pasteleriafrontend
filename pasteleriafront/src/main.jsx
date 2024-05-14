@@ -28,9 +28,9 @@ function Main() {
   return (
     <Router>
       <Routes>
-        <Route path="/login" element={<Login />} />
+        <Route path="/iniciarSesion" element={<Login />} />
         <Route path="/productos" element={<Productos />} />
-        <Route path="/paginaPrincipal" element={<PaginaPrincipal />} />
+        <Route path="/" element={<PaginaPrincipal />} />
         <Route path="/agregarProducto" element={<Contexto><AgregarProducto /></Contexto>} />
         <Route path="/registrar" element={<Registrar />} />
 
