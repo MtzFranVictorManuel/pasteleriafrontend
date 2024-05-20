@@ -21,6 +21,12 @@ function NavAdmin() {
         <div className="flex space-x-4">
           <a
             className="bg-pink-200 text-black px-2 py-1 rounded-lg hover:bg-pink-400"
+            href="/solicitudes"
+          >
+            Solicitudes
+          </a>
+          <a
+            className="bg-pink-200 text-black px-2 py-1 rounded-lg hover:bg-pink-400"
             href="/pedidos"
           >
             Pedidos

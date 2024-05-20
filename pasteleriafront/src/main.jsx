@@ -27,6 +27,8 @@ import PaginaPrincipal from "./pages/PaginaPrincipal.jsx";
 import Cesta from "./pages/Cesta.jsx";
 import HacerPedido from "./pages/realizarPedido/HacerPedido.jsx";
 import ContextoPedido from "./pages/realizarPedido/ContextoPedido.jsx";
+import Solicitudes from "./pages/Solicitudes/Solicitudes.jsx";
+
 function Main() {
   const { isLoggedIn } = useContext(AuthContext);
   console.log("isLoggedIn:", isLoggedIn);
@@ -39,7 +41,7 @@ function Main() {
         <Route
           path="/productos"
           element={
-            <PrivateRoute roles={['2']}>
+            <PrivateRoute roles={["2"]}>
               <Productos />
             </PrivateRoute>
           }
@@ -50,7 +52,7 @@ function Main() {
         <Route
           path="/agregarProducto"
           element={
-            <PrivateRoute roles={['2']}>
+            <PrivateRoute roles={["2"]}>
               <ContextoProducto>
                 <AgregarProducto />
               </ContextoProducto>
@@ -60,7 +62,7 @@ function Main() {
         <Route
           path="/cesta"
           element={
-            <PrivateRoute roles={['1','2']}>
+            <PrivateRoute roles={["1"]}>
               <Cesta />
             </PrivateRoute>
           }
@@ -68,7 +70,7 @@ function Main() {
         <Route
           path="/hacerPedido"
           element={
-            <PrivateRoute roles={['1','2']}>
+            <PrivateRoute roles={["1", "2"]}>
               <ContextoPedido>
                 <HacerPedido />
               </ContextoPedido>
@@ -78,11 +80,20 @@ function Main() {
         <Route
           path="/editarPerfil"
           element={
-            <PrivateRoute roles={['1']}>
+            <PrivateRoute roles={["1", "2"]}>
               <EditarPerfil />
             </PrivateRoute>
           }
         />
+        <Route
+          path="/solicitudes"
+          element={
+            <PrivateRoute roles={["2"]}>
+              <Solicitudes />
+            </PrivateRoute>
+          }
+        />
+
         <Route path="/home" element={<Home />} />
       </Routes>
     </Router>

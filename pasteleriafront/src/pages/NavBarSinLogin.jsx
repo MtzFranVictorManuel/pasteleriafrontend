@@ -8,7 +8,7 @@ function NavBarSinLogin() {
     <div>
       <nav className="relative flex items-center justify-between p-5 bg-teal-100 border-b-4 border-teal-200" style={{height: '100px'}}>
         <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
-          <a href="/paginaPrincipal" className="flex items-center space-x-2">
+          <a href="/" className="flex items-center space-x-2">
             <div className="text-black font-pacifico">Reposteria</div>
             <img src={prueba} alt="Logo" className="w-24 h-24 rounded-full" style={{top: '50%', position: 'relative'}}/>
             <div className="text-black font-pacifico">Rosario</div>
