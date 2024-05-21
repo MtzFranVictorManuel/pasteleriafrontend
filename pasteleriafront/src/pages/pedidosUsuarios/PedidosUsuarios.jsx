@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios"
 
-import { Loader, Error } from "@mui/material"
 
 function PedidosUsuarios() {
   const [pedidos, setPedidos] = useState([]);
@@ -22,13 +21,13 @@ function PedidosUsuarios() {
     fetchPedidos();
   }, []);
 
-  if (loading) {
-    return <Loader />;
-  }
+  // if (loading) {
+  //   return <Loader />;
+  // }
 
-  if (error) {
-    return <Error />;
-  }
+  // if (error) {
+  //   return <Error />;
+  // }
 
   return (
     <div className="pedidosUsuarios">

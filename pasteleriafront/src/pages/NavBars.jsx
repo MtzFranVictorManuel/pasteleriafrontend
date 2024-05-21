@@ -4,7 +4,7 @@ import NavBarSinLogin from "./NavBarSinLogin";
 import NavUsuario from "./NavUsuario";
 
 function NavBars() {
-    const role = localStorage.getItem('rol');
+  const [role, setRole] = useState(localStorage.getItem('rol') || 0);
 
     useEffect(() => {
       const intervalId = setInterval(() => {

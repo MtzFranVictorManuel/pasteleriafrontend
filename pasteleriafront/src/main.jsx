@@ -31,6 +31,10 @@ import Solicitudes from "./pages/Solicitudes/Solicitudes.jsx";
 import PedidosAdmin from "./pages/pedidos/PedidosAdmin.jsx";
 import HistorialPedidos from "./pages/pedidos/HistorialPedidos.jsx";
 
+import PedidosUsuarios from "./pages/pedidosUsuarios/PedidosUsuarios.jsx";
+
+
+
 function Main() {
   const { isLoggedIn } = useContext(AuthContext);
   console.log("isLoggedIn:", isLoggedIn);
@@ -108,6 +112,12 @@ function Main() {
           <HistorialPedidos />
         </PrivateRoute>
       } /> 
+
+      <Route path="/misPedidos" element={
+        <PrivateRoute roles={["1"]}>
+          <PedidosUsuarios />
+        </PrivateRoute>
+      } />
         <Route path="/home" element={<Home />} />
       </Routes>
     </Router>
