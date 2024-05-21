@@ -1,10 +1,11 @@
-import axios from "axios";
+import { Autocomplete, Modal, TextField } from "@mui/material";
 import ModalProductos from "../../components/ModalProductos";
-import { API_URL } from "../../services/Constantes";
 import ModalPago from "../../components/ModalPago";
 import { useState } from "react";
+import axios from "axios";
+import { API_URL } from "../../services/Constantes";
 
-const TarjetaPedido = ({ pedido, onPedidoChange }) => {
+const TarjetasEstadosPedidos = ({ pedido,onPedidoChange }) => {
   const {
     idPedido,
     codigoPedido,
@@ -15,8 +16,16 @@ const TarjetaPedido = ({ pedido, onPedidoChange }) => {
     total,
     imagenPago64,
   } = pedido;
+
   const [modalOpen, setModalOpen] = useState(false);
   const [modalPagoOpen, setModalPagoOpen] = useState(false);
+
+  const estadosPosibles = [
+    "aceptado",
+    "en proceso",
+    "listo para entrega",
+    "entregado",
+  ];
 
   function abrirModalPago() {
     setModalPagoOpen(true);
@@ -35,44 +44,22 @@ const TarjetaPedido = ({ pedido, onPedidoChange }) => {
     setModalOpen(false);
   }
 
-  function aceptarPedido() {
+    function actualizarEstadoPedido(idPedido, estado) {
     axios
-      .put(`${API_URL}pedido_estado`, { idPedido, estado: "aceptado" })
+      .put(`${API_URL}pedido_estado`, { idPedido, estado })
       .then((response) => {
         console.log(response.data);
         onPedidoChange();
-        alert("Pedido aceptado");
+        alert("Estado del pedido actualizado");
       })
       .catch((error) => {
         console.error(error);
       });
-  }
-  function rechazarPedido() {
-    axios
-      .put(`${API_URL}pedido_estado`, { idPedido, estado: "rechazado" })
-      .then((response) => {
-        console.log(response.data);
-        onPedidoChange();
-        alert("Pedido rechazado");
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }
-
-  function getColorClass(estado) {
-    switch (estado) {
-      case 'pagado':
-        return 'bg-green-100';
-      case 'pendiente pago':
-        return 'bg-yellow-100';
-      default:
-        return 'bg-white';
     }
-  }
+
 
   return (
-    <div className={`tarjeta-pedido ${getColorClass(estado)} shadow-md rounded px-8 pt-6 pb-8 mb-4`}>
+    <div className="tarjeta-pedido bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
       <h2 className="block text-gray-700 text-sm font-bold mb-2">
         Código de Pedido: {codigoPedido}
       </h2>
@@ -80,7 +67,16 @@ const TarjetaPedido = ({ pedido, onPedidoChange }) => {
       <p className="mb-2">Fecha de Entrega: {fechaEntrega}</p>
       <p className="mb-2">Tipo de Pago: {tipo}</p>
       <p className="mb-2">Total: {total}</p>
-      <p className="mb-2">{estado}</p>
+      <Autocomplete
+        value={estado}
+        onChange={(event, newValue) => {
+          actualizarEstadoPedido(idPedido, newValue);
+        }}
+        options={estadosPosibles}
+        renderInput={(params) => (
+          <TextField {...params} label="Estado" variant="outlined" />
+        )}
+      />
       <div className="flex items-center justify-between">
         {tipo === "transferencia" && estado === "pagado" && (
           <button
@@ -96,27 +92,19 @@ const TarjetaPedido = ({ pedido, onPedidoChange }) => {
         >
           Ver Productos
         </button>
-        <button
-          className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          onClick={aceptarPedido}
-        >
-          Aceptar
-        </button>
-        <button
-          className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          onClick={rechazarPedido}
-        >
-          Rechazar
-        </button>
       </div>
       <ModalProductos
         idPedido={idPedido}
         open={modalOpen}
         onClose={cerrarModal}
       />
-      <ModalPago open={modalPagoOpen} onClose={cerrarModalPago} imagen={imagenPago64} />
+      <ModalPago
+        open={modalPagoOpen}
+        onClose={cerrarModalPago}
+        imagen={imagenPago64}
+      />
     </div>
   );
 };
 
-export default TarjetaPedido;
+export default TarjetasEstadosPedidos;

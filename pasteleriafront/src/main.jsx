@@ -28,6 +28,8 @@ import Cesta from "./pages/Cesta.jsx";
 import HacerPedido from "./pages/realizarPedido/HacerPedido.jsx";
 import ContextoPedido from "./pages/realizarPedido/ContextoPedido.jsx";
 import Solicitudes from "./pages/Solicitudes/Solicitudes.jsx";
+import PedidosAdmin from "./pages/pedidos/PedidosAdmin.jsx";
+import HistorialPedidos from "./pages/pedidos/HistorialPedidos.jsx";
 
 function Main() {
   const { isLoggedIn } = useContext(AuthContext);
@@ -94,6 +96,18 @@ function Main() {
           }
         />
 
+        <Route path="/pedidos"
+        element={
+          <PrivateRoute roles={["2"]}>
+            <PedidosAdmin />
+          </PrivateRoute>
+        }
+      />
+      <Route path="/historialTodosPedidos" element={
+        <PrivateRoute roles={["2"]}>
+          <HistorialPedidos />
+        </PrivateRoute>
+      } /> 
         <Route path="/home" element={<Home />} />
       </Routes>
     </Router>

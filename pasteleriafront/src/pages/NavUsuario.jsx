@@ -82,6 +82,12 @@ function NavUsuario() {
         <div className="flex space-x-4">
             <a
                 className="text-xl text-black rounded-lg p-2 hover:bg-pink-400  font-fjalla"
+                href="/pedidos"
+            >
+                Mis Pedidos
+            </a>
+            <a
+                className="text-xl text-black rounded-lg p-2 hover:bg-pink-400  font-fjalla"
                 href="/cesta"
             >
                 Mi Cesta

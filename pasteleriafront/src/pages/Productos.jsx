@@ -105,7 +105,6 @@ function App() {
 
   return (
     <div>
-      <NavAdmin />
       <div className="text-center text-3xl font-bold mt-5">Productos</div>
       <a
         href="/agregarProducto"

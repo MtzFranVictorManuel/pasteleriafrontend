@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { API_URL } from "../../services/Constantes";
+import { API_URL } from "../services/Constantes";
 
 function ModalProductos({ idPedido, open, onClose }) {
   const [productos, setProductos] = useState([]);
