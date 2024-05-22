@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { TextField, Button } from '@mui/material';
 import { Link } from 'react-router-dom';
-import Logo from '../imagenes/logo.jpeg';
+import Logo from '../imagenes/prueba.png';
 import '../styles/loginStyle.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -55,7 +55,7 @@ function Register() {
         
             if (response.data.message === 'Usuario registrado correctamente') {
               alert('Usuario registrado correctamente');
-              navigate('/login'); // Redirige al usuario a la página de inicio de sesión
+              navigate('/iniciarSesion'); // Redirige al usuario a la página de inicio de sesión
             } else {
               alert(response.data.message);
             }
@@ -68,7 +68,7 @@ function Register() {
         <div>
             <div className="flex flex-col items-center justify-center h-screen space-y-4">
                 <img src={Logo} alt="Logo" className="logo" />
-                <h1 className="text-3xl font-bold">Registrar</h1>
+                <h1 className="text-3xl font-bold font-fjalla">Registrar</h1>
                 <TextField
                     id={emailError ? "outlined-error" : "outlined-email"}
                     label="Correo Electrónico"
@@ -76,7 +76,7 @@ function Register() {
                     value={email}
                     onChange={handleEmailChange}
                     error={emailError}
-                    className="mb-4 w-80"
+                    className="mb-4 w-80 font-fjalla"
                 />
                 <TextField
                     id={passwordError ? "outlined-error" : "outlined-password"}
@@ -99,11 +99,8 @@ function Register() {
                     helperText={passwordMatchError ? "Las contraseñas no coinciden" : ""}
                     className="mb-4 w-80"
                 />
-                <Button variant="contained" color="primary" onClick={handleSubmit} className="mb-4">
+                <Button variant="contained" color="primary" onClick={handleSubmit} className="mb-4" style={{ backgroundColor: '#CD006A' }}>
                     Registrar
-                </Button>
-                <Button variant="text" color="inherit">
-                    <Link to="/iniciarSesion">Regresar</Link>
                 </Button>
             </div>
         </div>

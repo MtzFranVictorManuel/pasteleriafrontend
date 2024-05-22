@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { AuthContext } from './autentificador/AuthContext';
 
 
-import Logo from '../imagenes/logo.jpeg';
+import Logo from '../imagenes/prueba.png';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -84,10 +84,10 @@ const Login = () => {
 
 
   return (
-    <div>
+    <div >
       <form className="flex flex-col items-center justify-center h-screen space-y-4" onSubmit={handleSubmit}>
         <img src={Logo} alt="Logo" className="logo" />
-        <h1 className="text-3xl font-bold">Login</h1>
+        <h1 className="text-3xl font-bold font-fjalla">Inicio de sesión</h1>
         <TextField
           id={emailError ? "outlined-error" : "outlined-email"}
           label="Correo Electrónico"
@@ -107,13 +107,11 @@ const Login = () => {
           error={passwordError}
           className="mb-4 w-80"
         />
-        <Button variant="contained" type="submit">
-          Iniciar sesión
+        <Button variant="contained" type="submit" style={{ backgroundColor: '#CD006A' }}>
+        Iniciar sesión
         </Button>
-        <div className="linkContainer">
+        <div className="linkContainer ">
           <a href="/forgot-password" style={{color:"blue"}}>¿Olvidaste tu contraseña?</a>
-          <span style={{ margin: '0 10px' }}>|</span>
-          <a href="/Registrar" style={{color:"blue"}}>Registrarse</a>
         </div>
       </form>
     </div>

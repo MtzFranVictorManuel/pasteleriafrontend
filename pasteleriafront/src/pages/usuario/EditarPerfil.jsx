@@ -141,13 +141,6 @@ const EditarPerfil = () => {
 
     return (
         <Box sx={{ m: 0, p: 0 }}>
-            <AppBar position="static">
-                <Toolbar>
-                    <IconButton edge="start" color="inherit" onClick={handleBackClick} aria-label="regresar">
-                        <ArrowBackIcon />
-                    </IconButton>
-                </Toolbar>
-            </AppBar>
             <div className="flex flex-col items-center justify-center h-screen space-y-4">
                 <Avatar {...stringAvatar(`${nombre} ${apellidos}`)} />
                 <TextField
