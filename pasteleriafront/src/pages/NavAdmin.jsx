@@ -32,6 +32,12 @@ function NavAdmin() {
             Pedidos
           </a>
           <a
+            className="bg-pink-200 text-black px-2 py-1 rounded-lg hover:bg-pink-400"
+            href="/historialPedidos"
+          >
+            Historial Pedidos
+          </a>
+          <a
             className="bg-pink-200 text-black rounded-lg px-2 py-1 hover:bg-pink-400"
             href="/productos"
           >
