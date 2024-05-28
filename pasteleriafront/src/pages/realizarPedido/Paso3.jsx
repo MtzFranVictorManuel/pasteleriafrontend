@@ -13,6 +13,8 @@ function Paso3() {
 
   const [fechaEntrega, setFechaEntrega] = useState("");
 
+  const idUsuario = localStorage.getItem("token");
+
   const handleFechaEntregaChange = (event) => {
     setFechaEntrega(event.target.value);
   };
@@ -44,7 +46,7 @@ function Paso3() {
     // Crear el objeto del pedido
     const pedido = {
       idDireccion: productoDatosBasicos.idDireccion,
-      idUsuario: 4, // Reemplaza esto con el ID del usuario actual
+      idUsuario: idUsuario, // Reemplaza esto con el ID del usuario actual
       fechaPedido: fechaPedido,
       fechaEntrega: fechaEntrega,
       estado: "pendiente pago", // Reemplaza esto con el estado inicial del pedido
@@ -106,7 +108,7 @@ function Paso3() {
   };
 
   function regresarPaginaPrincipal() {
-    navigate("/paginaPrincipal");
+    navigate("/misPedidos");
   }
 
   useEffect(() => {
