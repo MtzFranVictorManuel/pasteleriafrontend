@@ -29,9 +29,11 @@ import HacerPedido from "./pages/realizarPedido/HacerPedido.jsx";
 import ContextoPedido from "./pages/realizarPedido/ContextoPedido.jsx";
 import Solicitudes from "./pages/Solicitudes/Solicitudes.jsx";
 import PedidosAdmin from "./pages/pedidos/PedidosAdmin.jsx";
-import HistorialPedidos from "./pages/pedidos/HistorialPedidos.jsx";
+import HistorialPedidos from "./pages/HistorialPedidos.jsx";
 
 import PedidosUsuario from "./pages/pedidosUsuarios/PedidosUsuario.jsx";
+
+
 
 
 
@@ -46,7 +48,7 @@ function Main() {
         <Route path="/iniciarSesion" element={<Login />} />
         <Route
           path="/productos"
-          element={
+          element={ 
             <PrivateRoute roles={["2"]}>
               <Productos />
             </PrivateRoute>
@@ -107,8 +109,8 @@ function Main() {
           </PrivateRoute>
         }
       />
-      <Route path="/historialTodosPedidos" element={
-        <PrivateRoute roles={["2"]}>
+      <Route path="/historialPedidos" element={
+        <PrivateRoute roles={["1", "2"]}>
           <HistorialPedidos />
         </PrivateRoute>
       } /> 

@@ -29,6 +29,11 @@ function NavUsuario() {
         handleMenuClose();
         navigate('/editarPerfil');
       };
+
+      const handleHistorialPedidosClick = () => {
+        handleMenuClose();
+        navigate('/historialPedidos');
+      };
     
       const handleLogoutClick = () => {
         handleMenuClose();
@@ -94,14 +99,9 @@ function NavUsuario() {
             </a>
           <Box sx={{ display: "flex", gap: 2 }}>
             <Avatar onClick={handleAvatarClick} sx={{ cursor: "pointer" }} />
-            <Menu
-              anchorEl={anchorEl}
-              open={Boolean(anchorEl)}
-              onClose={handleMenuClose}
-            >
-              <MenuItem onClick={handleEditProfileClick}>
-                Editar perfil
-              </MenuItem>
+            <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
+              <MenuItem onClick={handleHistorialPedidosClick}>Historial de pedidos</MenuItem>
+              <MenuItem onClick={handleEditProfileClick}>Editar perfil</MenuItem>
               <MenuItem onClick={handleLogoutClick}>Cerrar Sesion</MenuItem>
             </Menu>
           </Box>
