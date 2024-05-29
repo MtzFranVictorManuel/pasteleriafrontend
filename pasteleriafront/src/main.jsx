@@ -31,7 +31,7 @@ import Solicitudes from "./pages/Solicitudes/Solicitudes.jsx";
 import PedidosAdmin from "./pages/pedidos/PedidosAdmin.jsx";
 import HistorialPedidos from "./pages/HistorialPedidos.jsx";
 
-import PedidosUsuarios from "./pages/pedidosUsuarios/PedidosUsuarios.jsx";
+import PedidosUsuario from "./pages/pedidosUsuarios/PedidosUsuario.jsx";
 
 
 
@@ -117,7 +117,7 @@ function Main() {
 
       <Route path="/misPedidos" element={
         <PrivateRoute roles={["1"]}>
-          <PedidosUsuarios />
+          <PedidosUsuario />
         </PrivateRoute>
       } />
         <Route path="/home" element={<Home />} />

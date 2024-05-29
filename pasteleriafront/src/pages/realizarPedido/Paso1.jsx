@@ -23,6 +23,9 @@ function Paso1() {
 
   const [selectedValue, setSelectedValue] = useState("");
 
+  const idUsuario = localStorage.getItem("token");
+  var mensaje = "";
+
 
   const handleChange = (event) => {
     setSelectedValue(event.target.value);
@@ -35,8 +38,16 @@ function Paso1() {
   const [direcciones, setDirecciones] = useState([]);
   const obtenerDirecciones = async () => {
     try {
-      const response = await axios.get(API_URL + "direccion/usuario/4");
-      setDirecciones(response.data);
+      const response = await axios.get(API_URL + "direccion/usuario/"+idUsuario);
+      console.log(response.data);
+      if(response.data.error)
+      {
+        mensaje="No hay direcciones registradas para este usuario.";
+      }
+      else{
+        mensaje="";
+        setDirecciones(response.data);
+      }
     } catch (error) {
       console.error("Hubo un error al obtener las direcciones: ", error);
     }
@@ -118,7 +129,7 @@ function Paso1() {
     try {
       axios
         .post(API_URL + "direccionUsuario", {
-          idUsuario: 4,
+          idUsuario: idUsuario,
           idDireccion: numeroDireccion,
         })
         .then((response) => {
@@ -137,6 +148,9 @@ function Paso1() {
     <div className="flex flex-col items-center">
       <RadioGroup value={selectedValue} onChange={handleChange}>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div>
+            {mensaje}
+          </div>
           {direcciones.map((direccion) => (
             <FormControlLabel
               key={direccion.idDireccion}
