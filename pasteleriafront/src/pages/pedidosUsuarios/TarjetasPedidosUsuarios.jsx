@@ -5,9 +5,10 @@ import ModalPagoUsuario from './ModalPagoUsuario';
 
 
 
-const PedidosUsuarios = ({pedido}) => {
+const PedidosUsuarios = ({pedido, fetchPedidos}) => {
     const {
         idPedido,
+        idPago,
         codigoPedido,
         fechaPedido,
         fechaEntrega,
@@ -83,7 +84,7 @@ const PedidosUsuarios = ({pedido}) => {
         open={modalOpen}
         onClose={cerrarModal}
       />
-      <ModalPagoUsuario open={modalPago} cerrarModalPago={cerrarModalPago} />
+      <ModalPagoUsuario open={modalPago} cerrarModalPago={cerrarModalPago} idPedido={idPedido} idPago={idPago} fetchPedidos={fetchPedidos} />
     </div>
     );
 }

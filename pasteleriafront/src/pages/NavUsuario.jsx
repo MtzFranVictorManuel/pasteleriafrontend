@@ -89,7 +89,7 @@ function NavUsuario() {
                 className="text-xl text-black rounded-lg p-2 hover:bg-pink-400  font-fjalla"
                 href="/misPedidos"
             >
-                Mis Pedidos
+                Mis Pedidos actuales
             </a>
             <a
                 className="text-xl text-black rounded-lg p-2 hover:bg-pink-400  font-fjalla"
