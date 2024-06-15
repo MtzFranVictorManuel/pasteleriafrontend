@@ -176,26 +176,34 @@ function Paso3() {
         )}
       </div>
 
-      <div className="flex justify-between mt-4">
-        <a
-          href="/productos"
-          className="bg-red-200 rounded-lg px-4 py-2 hover:bg-red-400 transition-colors duration-200"
-          onClick={() => console.log("Cancelar")}
-        >
-          Cancelar
-        </a>
-        <button
-          className="px-4 py-2 bg-yellow-200 text-black rounded hover:bg-yellow-400 transition-colors duration-200"
-          onClick={() => setPasoActual(pasoActual - 1)}
-        >
-          Retroceder
-        </button>
-        <button
-          className="px-4 py-2 bg-green-200 text-black rounded hover:bg-green-400 transition-colors duration-200"
-          onClick={guardarProducto}
-        >
-          Guardar Producto
-        </button>
+      <div className="flex flex-col space-y-2">
+        <ul className="list-none">
+          <li className="flex justify-center mb-2">
+            <a
+              href="/productos"
+              className="bg-red-200 rounded-lg px-4 py-2 hover:bg-red-400 transition-colors duration-200"
+              onClick={() => console.log("Cancelar")}
+            >
+              Cancelar
+            </a>
+          </li>
+          <li className="flex justify-center mb-2">
+            <button
+              className="px-4 py-2 bg-yellow-200 rounded-lg text-black hover:bg-yellow-400 transition-colors duration-200"
+              onClick={() => setPasoActual(pasoActual - 1)}
+            >
+              Retroceder
+            </button>
+          </li>
+          <li className="flex justify-center mb-2">
+            <button
+              className="px-4 py-2 bg-green-200 rounded-lg text-black hover:bg-green-400 transition-colors duration-200"
+              onClick={guardarProducto}
+            >
+              Guardar Producto
+            </button>
+          </li>
+        </ul>
       </div>
     </div>
   );
