@@ -30,8 +30,9 @@ import ContextoPedido from "./pages/realizarPedido/ContextoPedido.jsx";
 import Solicitudes from "./pages/Solicitudes/Solicitudes.jsx";
 import PedidosAdmin from "./pages/pedidos/PedidosAdmin.jsx";
 import HistorialPedidos from "./pages/HistorialPedidos.jsx";
-
 import PedidosUsuario from "./pages/pedidosUsuarios/PedidosUsuario.jsx";
+
+import ForgotPassword from "./pages/ForgotPassword.jsx";
 
 
 
@@ -45,10 +46,11 @@ function Main() {
     <Router>
       <NavBars />
       <Routes>
+        <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/iniciarSesion" element={<Login />} />
         <Route
           path="/productos"
-          element={ 
+          element={
             <PrivateRoute roles={["2"]}>
               <Productos />
             </PrivateRoute>
@@ -103,23 +105,23 @@ function Main() {
         />
 
         <Route path="/pedidos"
-        element={
-          <PrivateRoute roles={["2"]}>
-            <PedidosAdmin />
+          element={
+            <PrivateRoute roles={["2"]}>
+              <PedidosAdmin />
+            </PrivateRoute>
+          }
+        />
+        <Route path="/historialPedidos" element={
+          <PrivateRoute roles={["1", "2"]}>
+            <HistorialPedidos />
           </PrivateRoute>
-        }
-      />
-      <Route path="/historialPedidos" element={
-        <PrivateRoute roles={["1", "2"]}>
-          <HistorialPedidos />
-        </PrivateRoute>
-      } /> 
+        } />
 
-      <Route path="/misPedidos" element={
-        <PrivateRoute roles={["1"]}>
-          <PedidosUsuario />
-        </PrivateRoute>
-      } />
+        <Route path="/misPedidos" element={
+          <PrivateRoute roles={["1"]}>
+            <PedidosUsuario />
+          </PrivateRoute>
+        } />
         <Route element={<Home />} />
       </Routes>
     </Router>

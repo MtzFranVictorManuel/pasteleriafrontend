@@ -5,6 +5,7 @@ import './Registrar.jsx'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from './autentificador/AuthContext';
+import { Link } from 'react-router-dom';
 
 
 import Logo from '../imagenes/prueba.png';
@@ -48,7 +49,7 @@ const Login = () => {
       setPasswordError(true);
       return;
     }
-    
+
 
     try {
       const response = await axios.post('http://127.0.0.1:8000/login', {
@@ -66,7 +67,7 @@ const Login = () => {
       } else {
         alert(response.data.message);
       }
-    }  catch (error) {
+    } catch (error) {
       if (error.response) {
         // La petición fue hecha y el servidor respondió con un código de estado
         // que cae fuera del rango de 2xx
@@ -108,10 +109,10 @@ const Login = () => {
           className="mb-4 w-80"
         />
         <Button variant="contained" type="submit" style={{ backgroundColor: '#CD006A' }}>
-        Iniciar sesión
+          Iniciar sesión
         </Button>
-        <div className="linkContainer ">
-          <a href="/forgot-password" style={{color:"blue"}}>¿Olvidaste tu contraseña?</a>
+        <div className="linkContainer">
+          <Link to="/forgot-password" style={{ color: "blue" }}>¿Olvidaste tu contraseña?</Link>
         </div>
       </form>
     </div>

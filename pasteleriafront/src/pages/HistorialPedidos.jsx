@@ -57,8 +57,8 @@ const HistorialPedidos = () => {
                       return <Chip label="Pagado" style={{ backgroundColor: '#1C7C19', color: 'white' }} />;
                     case 'pendiente pago':
                       return <Chip label="Pendiente Pago" style={{ backgroundColor: '#B4D33F', color: 'white' }} />;
-                    case 'pedido aceptado':
-                      return <Chip label="Pedido Aceptado" style={{ backgroundColor: '#3FB4D3', color: 'white' }} />;
+                    case 'rechazado':
+                      return <Chip label="Rechazado" style={{ backgroundColor: '#DF310B', color: 'white' }} />;
                     case 'en proceso':
                       return <Chip label="En Proceso" style={{ backgroundColor: '#EA8E17', color: 'white' }} />;
                     case 'listo para entregar':
