@@ -8,27 +8,41 @@ const HistorialPedidos = () => {
   const email = localStorage.getItem('email');
   const rol = localStorage.getItem('rol');
 
-  useEffect(() => {
-    // Obtén el historial de pedidos del usuario actual
-    // Obtén el historial de pedidos del usuario actual
-    const obtenerHistorial = async () => {
-      try {
-        let response;
-        if (rol === '2') {
-          // Si el usuario es un administrador, obtén todos los pedidos
-          response = await axios.get(`http://127.0.0.1:8000/historialPedidos/${email}`);
-        } else {
-          // Si el usuario no es un administrador, obtén solo sus pedidos
-          response = await axios.get(`http://127.0.0.1:8000/historialPedidos/${email}`);
-        }
-        setHistorial(response.data);
-      } catch (error) {
-        console.error('Hubo un error al obtener el historial de pedidos', error);
+  const obtenerHistorial = async () => {
+    try {
+      let response;
+      if (rol === '2') {
+        // Si el usuario es un administrador, obtén todos los pedidos
+        response = await axios.get(`http://127.0.0.1:8000/historialPedidos/${email}`);
+      } else {
+        // Si el usuario no es un administrador, obtén solo sus pedidos
+        response = await axios.get(`http://127.0.0.1:8000/historialPedidos/${email}`);
       }
-    };
-
+      setHistorial(response.data);
+    } catch (error) {
+      console.error('Hubo un error al obtener el historial de pedidos', error);
+    }
+  };
+  
+  // Llamar a obtenerHistorial cuando cambia el correo electrónico
+  useEffect(() => {
     obtenerHistorial();
   }, [email]);
+
+  async function cancelarPedido(codigoPedido) {
+    const response = await fetch(`http://127.0.0.1:8000/cancelar-pedido/${codigoPedido}`, {
+      method: 'POST',
+    });
+
+    if (response.ok) {
+      obtenerHistorial();  // recargar los datos de los pedidos
+    } else {
+      const errorData = await response.json();
+      console.error('Error al cancelar el pedido:', errorData.detail);
+    }
+  }
+
+
 
   return (
     <TableContainer component={Paper} className="my-4 mx-auto max-w-7xl">
@@ -42,6 +56,7 @@ const HistorialPedidos = () => {
             <TableCell style={{ backgroundColor: '#f5f5f5', fontWeight: 'bold' }}>Fecha de Entrega</TableCell>
             <TableCell style={{ backgroundColor: '#f5f5f5', fontWeight: 'bold' }}>Calle</TableCell>
             <TableCell style={{ backgroundColor: '#f5f5f5', fontWeight: 'bold' }}>Colonia</TableCell>
+            <TableCell style={{ backgroundColor: '#f5f5f5', fontWeight: 'bold' }}></TableCell>
             {rol === '2' && <TableCell style={{ backgroundColor: '#f5f5f5', fontWeight: 'bold' }}>Detalles</TableCell>}
           </TableRow>
         </TableHead>
@@ -81,6 +96,27 @@ const HistorialPedidos = () => {
                   <Button style={{ backgroundColor: '#CD006A', color: 'white' }} href={`/historialPedidos/${pedido.codigoPedido}`}>Ver Detalles</Button>
                 </TableCell>
               }
+              <TableCell>
+                {pedido.estado === 'en proceso' && (
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={() => {
+                      const confirmacion = window.confirm(`Estás a punto de cancelar el pedido ${pedido.codigoPedido}. ¿Deseas continuar?`);
+                      if (confirmacion) {
+                        const codigo = window.prompt('Ingresa el código del pedido a cancelar');
+                        if (codigo === pedido.codigoPedido) {
+                          cancelarPedido(pedido.codigoPedido);
+                        } else {
+                          window.alert('El código ingresado no coincide con el pedido. Por favor, inténtalo de nuevo.');
+                        }
+                      }
+                    }}
+                  >
+                    Cancelar pedido
+                  </Button>
+                )}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
