@@ -120,7 +120,7 @@ function Main() {
           <PedidosUsuario />
         </PrivateRoute>
       } />
-        <Route path="/home" element={<Home />} />
+        <Route element={<Home />} />
       </Routes>
     </Router>
   );

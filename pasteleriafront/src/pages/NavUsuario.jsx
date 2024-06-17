@@ -53,7 +53,7 @@ function NavUsuario() {
         style={{ height: "100px" }}
       >
         <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
-          <a href="/paginaPrincipal" className="flex items-center space-x-2">
+          <a href="/" className="flex items-center space-x-2">
             <div className="text-black font-pacifico">Reposteria</div>
             <img
               src={prueba}
@@ -89,7 +89,7 @@ function NavUsuario() {
                 className="text-xl text-black rounded-lg p-2 hover:bg-pink-400  font-fjalla"
                 href="/misPedidos"
             >
-                Mis Pedidos
+                Mis Pedidos actuales
             </a>
             <a
                 className="text-xl text-black rounded-lg p-2 hover:bg-pink-400  font-fjalla"

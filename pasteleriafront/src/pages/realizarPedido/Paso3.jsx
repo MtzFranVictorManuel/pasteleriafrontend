@@ -96,6 +96,7 @@ function Paso3() {
           .post(`${API_URL}pedido_pago`, pedidoPago)
           .then((response) => {
             console.log("Pedido_pago creado correctamente:", response.data);
+            mandarCorreo();
             regresarPaginaPrincipal();
           })
           .catch((error) => {
@@ -105,7 +106,22 @@ function Paso3() {
       .catch((error) => {
         console.error("Error creando el pedido:", error);
       });
+
   };
+
+  //mandar Correo
+  function mandarCorreo() {
+    axios
+      .post(`${API_URL}correo`)
+      .then((response) => {
+        console.log("Correo enviado correctamente:", response.data);
+      })
+      .catch((error) => {
+        console.error("Error enviando el correo:", error);
+      });
+  }
+
+
 
   function regresarPaginaPrincipal() {
     navigate("/misPedidos");

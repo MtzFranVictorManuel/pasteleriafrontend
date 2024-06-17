@@ -8,7 +8,7 @@ const ProductList = () => {
   useEffect(() => {
     const getProductosConImagenes = async () => {
       try {
-        const response = await fetch('http://localhost:6060/productos_con_imagenes');
+        const response = await fetch('http://localhost:8000/productos_con_imagenes');
         if (!response.ok) {
           throw new Error('¡¡Error al obtener los productos!!');
         }

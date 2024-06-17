@@ -21,7 +21,6 @@ const TarjetasEstadosPedidos = ({ pedido,onPedidoChange }) => {
   const [modalPagoOpen, setModalPagoOpen] = useState(false);
 
   const estadosPosibles = [
-    "aceptado",
     "en proceso",
     "listo para entrega",
     "entregado",

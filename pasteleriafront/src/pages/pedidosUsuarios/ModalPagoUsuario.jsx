@@ -9,8 +9,10 @@ import {
 } from "@mui/material";
 import qr from "../../imagenes/qr.png";
 import placeholder from "../../imagenes/placeholder.png";
+import axios from "axios";
+import { API_URL } from "../../services/Constantes";
 
-function ModalPagoUsuario({ open, cerrarModalPago }) {
+function ModalPagoUsuario({ open, cerrarModalPago, idPedido, idPago, fetchPedidos }) {
   const [src, setSrc] = useState(placeholder);
   const { getRootProps, getInputProps, acceptedFiles } = useDropzone({
     accept: "image/*",
@@ -27,6 +29,47 @@ function ModalPagoUsuario({ open, cerrarModalPago }) {
       }
     },
   });
+
+  const [confirmOpen, setConfirmOpen] = useState(false);
+
+  function guardarImagenPago() {
+    console.log("Guardar imagen de pago");
+    console.log(idPago);
+    console.log(src);
+    axios
+      .put(API_URL + "pedido_pago_imagen",
+      {
+        idPago: idPago,
+        imagenPago64: src,
+      }
+      )
+      .then((response) => {
+        console.log(response.data);
+        editarEstado();
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  function editarEstado() {
+    console.log("Editar estado");
+    axios
+      .put(API_URL + "pedido_estado",
+      {
+        idPedido: idPedido,
+        estado: "pagado",
+      
+      })
+      .then((response) => {
+        console.log(response.data);
+        cerrarModalPago();
+        fetchPedidos();
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
 
   return (
     <>
@@ -60,9 +103,25 @@ function ModalPagoUsuario({ open, cerrarModalPago }) {
         </DialogContent>
         <DialogActions>
           <Button onClick={cerrarModalPago} color="primary">
-            Close
+            Cerrrar
           </Button>
+          <Button onClick={() => setConfirmOpen(true)} color="primary">
+        Guardar
+      </Button>
         </DialogActions>
+        <Dialog open={confirmOpen} onClose={() => setConfirmOpen(false)}>
+          <DialogTitle>
+            ¿Estás seguro de que quieres guardar la imagen?
+          </DialogTitle>
+          <DialogActions>
+            <Button onClick={() => setConfirmOpen(false)} color="primary">
+              Cancelar
+            </Button>
+            <Button onClick={guardarImagenPago} color="primary">
+              Confirmar
+            </Button>
+          </DialogActions>
+        </Dialog>
       </Dialog>
     </>
   );
