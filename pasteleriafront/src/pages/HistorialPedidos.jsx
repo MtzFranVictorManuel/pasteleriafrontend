@@ -57,7 +57,6 @@ const HistorialPedidos = () => {
             <TableCell style={{ backgroundColor: '#f5f5f5', fontWeight: 'bold' }}>Calle</TableCell>
             <TableCell style={{ backgroundColor: '#f5f5f5', fontWeight: 'bold' }}>Colonia</TableCell>
             <TableCell style={{ backgroundColor: '#f5f5f5', fontWeight: 'bold' }}></TableCell>
-            {rol === '2' && <TableCell style={{ backgroundColor: '#f5f5f5', fontWeight: 'bold' }}>Detalles</TableCell>}
           </TableRow>
         </TableHead>
         <TableBody>
@@ -91,11 +90,6 @@ const HistorialPedidos = () => {
               <TableCell>{pedido.fechaEntrega}</TableCell>
               <TableCell>{pedido.calle}</TableCell>
               <TableCell>{pedido.colonia}</TableCell>
-              {rol === '2' &&
-                <TableCell>
-                  <Button style={{ backgroundColor: '#CD006A', color: 'white' }} href={`/historialPedidos/${pedido.codigoPedido}`}>Ver Detalles</Button>
-                </TableCell>
-              }
               <TableCell>
                 {pedido.estado === 'en proceso' && (
                   <Button
